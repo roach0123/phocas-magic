@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Phocas Magic",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A modern, Apple-inspired redesign for Phocas BI (*.phocassoftware.com). Click the icon to toggle.",
   "icons": {
     "16": "icons/icon16.png",
@@ -55,7 +55,12 @@
         "js/listsearch.js"
       ],
       "run_at": "document_start",
-      "all_frames": true
+      "all_frames": true,
+      "exclude_matches": [
+        "https://*.phocassoftware.com/administration*",
+        "https://*.phocassoftware.com/Administration*",
+        "https://*.phocassoftware.com/ADMINISTRATION*"
+      ]
     }
   ],
   "host_permissions": [

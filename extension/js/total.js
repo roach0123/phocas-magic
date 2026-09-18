@@ -3,6 +3,8 @@
 // as big numbers at the right of the Focus / Reset / Matrix row. It is placed
 // outside #query-view, whose size drives the grid.
 (() => {
+  // Excluded area: never touch Phocas administration pages
+  if (/^\/administration(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagicTotal) return;
   window.__phocasMagicTotal = true;
 

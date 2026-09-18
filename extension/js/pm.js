@@ -2,6 +2,8 @@
 // and dashboard sections so CSS can target them, and listens for the toolbar
 // toggle. Runs at document_start in every frame.
 (() => {
+  // Excluded area: never touch Phocas administration pages
+  if (/^\/administration(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagic) return;
   window.__phocasMagic = true;
 
@@ -39,6 +41,7 @@
     if (location.pathname === lastPath) return;
     lastPath = location.pathname;
     root.dataset.pmPage = pageType();
+    if (/^\/administration(\/|$)/i.test(location.pathname)) root.classList.remove("pm-on");
     delete root.dataset.pmScrolled;
   };
 

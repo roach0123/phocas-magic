@@ -35,6 +35,10 @@ const syncDomains = async () => {
   await chrome.scripting.registerContentScripts([{
     id: SCRIPT_ID,
     matches: granted,
+    excludeMatches: granted.flatMap((g) => {
+      const origin = g.replace(/\/\*$/, "");
+      return ["/administration*", "/Administration*", "/ADMINISTRATION*"].map((x) => origin + x);
+    }),
     css,
     js,
     runAt: "document_start",

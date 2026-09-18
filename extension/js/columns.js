@@ -7,6 +7,8 @@
 // paging still address the right data. Order is saved per page + widget in
 // localStorage and re-applied after every Phocas redraw.
 (() => {
+  // Excluded area: never touch Phocas administration pages
+  if (/^\/administration(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagicColumns) return;
   window.__phocasMagicColumns = true;
 

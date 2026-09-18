@@ -28,6 +28,8 @@ It runs on any `https://*.phocassoftware.com/*` site out of the box. To use it o
 
 This is an unofficial, personal project. It isn't affiliated with or endorsed by Phocas Software. Phocas can change its markup at any time, which may break parts of the styling until the selectors are updated.
 
+**Excluded area:** nothing runs on `/administration` pages. The manifest's `exclude_matches` keeps the CSS and scripts from loading there, and each script also checks the path, in case the app navigates there without a page load.
+
 ## Install / update
 
 The extension is loaded unpacked from `extension/`.

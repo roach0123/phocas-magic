@@ -5,6 +5,8 @@
 // Reordering uses CSS `order` on the flex list, so neither React (Flex Modes)
 // nor jQuery (classic Analytics) sees its DOM moved.
 (() => {
+  // Excluded area: never touch Phocas administration pages
+  if (/^\/administration(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagicDimOrder) return;
   window.__phocasMagicDimOrder = true;
 
