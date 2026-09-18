@@ -87,6 +87,19 @@
       const visible = !!(f && f.getClientRects().length && getComputedStyle(f).visibility !== "hidden");
       if (w.classList.contains("pm-has-filter") !== visible) w.classList.toggle("pm-has-filter", visible);
     }
+    // Conditional formatting: lift the rule color from Phocas' 3px underline
+    // element onto its cell (CSS turns it into a soft tint + colored value)
+    for (const el of document.querySelectorAll(".conditional-formatting-element")) {
+      const td = el.closest("td");
+      if (!td) continue;
+      const color = el.style.backgroundColor || el.style.background || "";
+      if (!color) continue;
+      if (td.dataset.pmCf !== color) {
+        td.dataset.pmCf = color;
+        td.style.setProperty("--pm-cf", color);
+        td.classList.add("pm-cf");
+      }
+    }
     // Column titles: say that a click sorts
     for (const td of document.querySelectorAll(".js-grid-main-title td.sortable:not([data-pm-tip])")) {
       td.dataset.pmTip = "1";

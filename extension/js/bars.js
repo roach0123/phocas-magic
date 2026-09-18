@@ -39,6 +39,11 @@
     if (idx == null || idx === "-1") return;
     const cells = [...grid.querySelectorAll(`.js-grid-main-body tr:not(.summary):not(.summary-row) td.number[data-index="${idx}"]`)]
       .filter((td) => td.offsetParent !== null); // current page only (other pages are display:none)
+    // Columns with Phocas conditional formatting already carry their own color
+    if (cells.some((td) => td.querySelector(".conditional-formatting-element"))) {
+      for (const td of cells) { td.classList.remove("pm-bar", "pm-bar-neg"); td.style.removeProperty("--pm-bar"); }
+      return;
+    }
     if (cells.length < 3) {
       for (const td of cells) { td.classList.remove("pm-bar", "pm-bar-neg"); td.style.removeProperty("--pm-bar"); }
       return;

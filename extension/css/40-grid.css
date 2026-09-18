@@ -198,3 +198,20 @@ html.pm-on {
     visibility: visible !important;
   }
 }
+
+html.pm-on {
+  /* ---------- Conditional formatting: soft tint instead of a bold underline ----------
+     Phocas renders the rule as a 3px colored block under the value. It stays in
+     the layout (row heights include it, so frozen tables stay aligned) but goes
+     invisible; pm.js copies its color to the cell as --pm-cf. */
+  & .js-grid .conditional-formatting-element { background: transparent !important; }
+  & .js-grid .js-grid-main-body tr:not(.selected):not(.highlight) td.pm-cf:not(.selected):not(.highlight) {
+    background-color: color-mix(in srgb, var(--pm-cf) 13%, #fff) !important;
+    box-shadow: inset 3px 0 0 color-mix(in srgb, var(--pm-cf) 70%, #fff);
+    color: color-mix(in srgb, var(--pm-cf) 72%, #0f172a) !important;
+    font-weight: 600;
+  }
+  & .js-grid .js-grid-main-body tr.hover td.pm-cf:not(.selected):not(.highlight) {
+    background-color: color-mix(in srgb, var(--pm-cf) 20%, #fff) !important;
+  }
+}
