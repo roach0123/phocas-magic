@@ -194,65 +194,178 @@ html.pm-on {
 }
 
 html.pm-on {
-  /* ---------- KPI cards (single value widgets, tagged by pm.js) ---------- */
+  /* ---------- KPI cards (single value widgets, tagged by pm.js) ----------
+     Anatomy (pm.js builds .pm-kpi-face inside the card and keeps it in sync
+     with Phocas' own value, which stays in the DOM but hidden):
+       label (small caps, muted)                     subtitle (quiet tag)
+       [status pill]
+       48px tabular number + light unit              radial ring (% values)
+     The status color drives everything: the aura in the corner, the hairline,
+     the tinted shadow, the pill, the ring. The number itself stays ink so the
+     four tiles read as one calm system instead of four shouting colors. */
   & .dashboard-widget.pm-kpi > .widget-fullscreen {
     overflow: hidden;
     background:
-      radial-gradient(95% 130% at 100% 100%, color-mix(in srgb, var(--pm-kpi) 22%, transparent), transparent 64%),
-      linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--pm-kpi) 6%, transparent)),
-      rgba(255, 255, 255, 0.94) !important;
+      radial-gradient(110% 95% at 100% 0%, color-mix(in srgb, var(--pm-kpi) 15%, transparent), transparent 58%),
+      radial-gradient(60% 55% at 0% 100%, color-mix(in srgb, var(--pm-kpi) 5%, transparent), transparent 70%),
+      #fff !important;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--pm-kpi) 24%, rgba(255, 255, 255, 0.7)),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      0 1px 2px rgba(15, 23, 42, 0.04),
+      0 12px 32px -14px color-mix(in srgb, var(--pm-kpi) 38%, rgba(15, 23, 42, 0.12)) !important;
   }
-  /* status bar: slim, rounded, inset, replaces the 18px stripe */
-  & .dashboard-widget.pm-kpi > .widget-fullscreen::after {
+  /* hover: the aura brightens and the tile lifts */
+  & .dashboard-widget.pm-kpi > .widget-fullscreen::before {
     content: "";
     position: absolute;
-    left: 16px;
-    right: 16px;
-    bottom: 14px;
-    height: 7px;
-    border-radius: 7px;
-    background: linear-gradient(90deg, color-mix(in srgb, var(--pm-kpi) 70%, #fff), var(--pm-kpi));
-    box-shadow: 0 2px 8px -2px color-mix(in srgb, var(--pm-kpi) 55%, transparent);
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(110% 95% at 100% 0%, color-mix(in srgb, var(--pm-kpi) 24%, transparent), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s var(--pm-ease);
     pointer-events: none;
   }
+  & .dashboard-widget.pm-kpi > .widget-fullscreen:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--pm-kpi) 34%, rgba(255, 255, 255, 0.7)),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      0 2px 4px rgba(15, 23, 42, 0.05),
+      0 20px 44px -16px color-mix(in srgb, var(--pm-kpi) 48%, rgba(15, 23, 42, 0.14)) !important;
+  }
+  & .dashboard-widget.pm-kpi > .widget-fullscreen:hover::before { opacity: 1; }
+
+  /* Phocas' own value box: stripe off; hidden (not removed) once our face
+     exists, so React keeps owning it and pm.js can keep mirroring it */
   & .dashboard-widget.pm-kpi .pm-kpi-box {
     border-bottom-color: transparent !important;
     justify-content: center;
     padding-bottom: 6px;
   }
-  /* title: status dot + quieter label */
+  & .dashboard-widget.pm-kpi.pm-kpi-faced .pm-kpi-box { visibility: hidden; }
+
+  /* Label: small caps, tracked, quiet. The pill carries the status. */
+  & .dashboard-widget.pm-kpi .widget-header { padding: 16px 20px 0 !important; position: relative; z-index: 1; }
   & .dashboard-widget.pm-kpi .widget-name-line h4 {
-    display: flex !important;
-    align-items: center;
-    gap: 8px;
-    color: var(--pm-ink-2) !important;
-    font-size: 13.5px !important;
-    font-weight: 600 !important;
+    color: var(--pm-muted) !important;
+    font-family: var(--pm-font) !important;
+    font-size: 11.5px !important;
+    font-weight: 660 !important;
+    letter-spacing: 0.075em !important;
+    text-transform: uppercase;
+    line-height: 1.35 !important;
   }
-  & .dashboard-widget.pm-kpi .widget-name-line h4::before {
+  & .dashboard-widget.pm-kpi .widget-descr-line h5 {
+    color: var(--pm-faint) !important;
+    font-size: 10.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 0;
+    line-height: 16px;
+  }
+
+  /* The face: our typographic layer, bottom of the card */
+  & .dashboard-widget.pm-kpi .pm-kpi-face {
+    position: absolute;
+    left: 20px;
+    right: 18px;
+    /* centered in the space under the label, not pinned to the bottom */
+    top: 46px;
+    bottom: 12px;
+    align-content: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    column-gap: 14px;
+    align-items: end;
+    pointer-events: none;
+    z-index: 1;
+  }
+  /* status pill */
+  & .dashboard-widget.pm-kpi .pm-kpi-pill {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 22px;
+    padding: 0 9px 0 7px;
+    margin-bottom: 9px;
+    border-radius: 999px;
+    font: 650 11px/1 var(--pm-font);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    color: color-mix(in srgb, var(--pm-kpi) 62%, var(--pm-ink));
+    background: color-mix(in srgb, var(--pm-kpi) 11%, #fff);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pm-kpi) 26%, transparent);
+  }
+  & .dashboard-widget.pm-kpi .pm-kpi-pill::before {
     content: "";
-    flex: none;
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--pm-kpi);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--pm-kpi) 22%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--pm-kpi) 22%, transparent);
   }
-  /* the value: big, tight, confident */
-  & .dashboard-widget.pm-kpi .pm-kpi-box > div {
-    color: var(--pm-ink) !important;
-    font-family: var(--pm-font-display) !important;
-    font-weight: 700 !important;
-    letter-spacing: -0.035em;
+  /* the number: huge, tight, tabular; unit and prefix step back */
+  & .dashboard-widget.pm-kpi .pm-kpi-value {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    align-items: baseline;
+    min-width: 0;
+    font-family: var(--pm-font-display);
+    color: var(--pm-ink);
+    white-space: nowrap;
+    line-height: 1;
+  }
+  & .dashboard-widget.pm-kpi .pm-kpi-num {
+    font-size: 48px;
+    font-weight: 760;
+    letter-spacing: -0.045em;
     font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum", "ss01";
   }
-  /* value in a deep shade of the status color (readable, but the meaning shows) */
-  & .dashboard-widget.pm-kpi .pm-kpi-box > div > div:not(:empty) {
-    color: color-mix(in srgb, var(--pm-kpi) 78%, #0f172a) !important;
+  & .dashboard-widget.pm-kpi .pm-kpi-pre,
+  & .dashboard-widget.pm-kpi .pm-kpi-unit {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--pm-muted);
   }
-  /* units/prefix spans (e.g. %, $) sit lighter */
-  & .dashboard-widget.pm-kpi .pm-kpi-box [class*="css-"][class*="egf0vs"],
-  & .dashboard-widget.pm-kpi .pm-kpi-box > div > div:empty { color: var(--pm-muted) !important; }
-  /* lift on hover, like a tile */
-  & .dashboard-widget.pm-kpi > .widget-fullscreen:hover { transform: translateY(-2px); }
+  & .dashboard-widget.pm-kpi .pm-kpi-pre { margin-right: 3px; }
+  & .dashboard-widget.pm-kpi .pm-kpi-unit { margin-left: 3px; }
+  /* ring: the percentage drawn as an arc of 100 (only for % values 0-100) */
+  & .dashboard-widget.pm-kpi .pm-kpi-ring {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: end;
+    width: 66px;
+    height: 66px;
+    transform: rotate(-90deg);
+    overflow: visible;
+    filter: drop-shadow(0 6px 12px color-mix(in srgb, var(--pm-kpi) 28%, transparent));
+  }
+  & .dashboard-widget.pm-kpi .pm-kpi-track {
+    fill: none;
+    stroke: color-mix(in srgb, var(--pm-kpi) 13%, transparent);
+    stroke-width: 3.4;
+  }
+  & .dashboard-widget.pm-kpi .pm-kpi-arc {
+    fill: none;
+    stroke: var(--pm-kpi);
+    stroke-width: 3.4;
+    stroke-linecap: round;
+    stroke-dasharray: var(--pm-kpi-pct, 0) 100;
+    animation: pm-kpi-draw 1.1s var(--pm-ease) 0.15s both;
+    transition: stroke-width 0.28s var(--pm-ease);
+  }
+  & .dashboard-widget.pm-kpi > .widget-fullscreen:hover .pm-kpi-arc { stroke-width: 4.2; }
+}
+
+@keyframes pm-kpi-draw {
+  from { stroke-dasharray: 0 100; }
 }

@@ -78,6 +78,69 @@
     }
   }, { capture: true, passive: true });
 
+  // ---------- KPI face ----------
+  // Our own typographic layer inside a KPI card: a status pill named from the
+  // color, the value split into prefix / number / unit, and a ring for
+  // percentages. Phocas' value stays in the DOM (CSS hides it) so React keeps
+  // owning it; we mirror it and re-sync whenever it changes. Nothing is
+  // invented: the label is the color, the ring is the percentage out of 100.
+  const KPI_LABEL = { good: "On track", warn: "Watch", bad: "Needs attention" };
+  const kpiTone = (color) => {
+    const m = color.match(/\d+(?:\.\d+)?/g);
+    if (!m || m.length < 3) return "";
+    const [r, g, b] = m.slice(0, 3).map((n) => parseFloat(n) / 255);
+    const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+    if (d < 0.08) return "";
+    let h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    h = (h * 60 + 360) % 360;
+    if (h < 22 || h >= 330) return "bad";
+    if (h < 70) return "warn";
+    if (h < 170) return "good";
+    return "";
+  };
+  const escapeHtml = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  const dressKpi = (w, box, color) => {
+    const card = w.querySelector(":scope > .widget-fullscreen");
+    const row = box.querySelector(":scope > div");
+    if (!card || !row) return;
+    const raw = (row.textContent || "").replace(/\s+/g, " ").trim();
+    if (!raw) { w.classList.remove("pm-kpi-faced"); return; }
+    const m = raw.match(/^([^\d]*?)(-?\d[\d,]*(?:\.\d+)?)(.*)$/);
+    const pre = m ? m[1].trim() : "";
+    const num = m ? m[2] : raw;
+    const unit = m ? m[3].trim() : "";
+    const tone = kpiTone(color);
+    let pct = NaN;
+    if (m && /%/.test(unit)) pct = parseFloat(num.replace(/,/g, ""));
+    const ring = Number.isFinite(pct) && pct >= 0 && pct <= 100;
+    let face = card.querySelector(":scope > .pm-kpi-face");
+    if (!face) {
+      face = document.createElement("div");
+      face.className = "pm-kpi-face";
+      face.setAttribute("aria-hidden", "true");
+      card.appendChild(face);
+    }
+    const sig = [tone, raw, color].join("|");
+    if (face.dataset.pmSig !== sig) {
+      face.dataset.pmSig = sig;
+      let html = "";
+      if (tone) html += `<span class="pm-kpi-pill">${KPI_LABEL[tone]}</span>`;
+      html += '<div class="pm-kpi-value">' +
+        (pre ? `<span class="pm-kpi-pre">${escapeHtml(pre)}</span>` : "") +
+        `<span class="pm-kpi-num">${escapeHtml(num)}</span>` +
+        (unit ? `<span class="pm-kpi-unit">${escapeHtml(unit)}</span>` : "") +
+        "</div>";
+      if (ring) {
+        html += `<svg class="pm-kpi-ring" viewBox="0 0 36 36" style="--pm-kpi-pct:${pct}">` +
+          '<circle class="pm-kpi-track" cx="18" cy="18" r="16" pathLength="100"></circle>' +
+          '<circle class="pm-kpi-arc" cx="18" cy="18" r="16" pathLength="100"></circle></svg>';
+      }
+      face.innerHTML = html;
+      w.dataset.pmKpiTone = tone || "none";
+    }
+    w.classList.add("pm-kpi-faced");
+  };
+
   // ---------- Small UX touches ----------
   const touchUp = () => {
     // Widget filter fields had no hint
@@ -116,6 +179,7 @@
       if (!color) continue;
       if (!w.classList.contains("pm-kpi")) { w.classList.add("pm-kpi"); box.classList.add("pm-kpi-box"); }
       if (w.style.getPropertyValue("--pm-kpi") !== color) w.style.setProperty("--pm-kpi", color);
+      dressKpi(w, box, color);
     }
     // Conditional formatting: lift the rule color from Phocas' 3px underline
     // element onto its cell (CSS turns it into a soft tint + colored value)
@@ -169,7 +233,8 @@
 
   const start = () => {
     tick();
-    new MutationObserver(queue).observe(document.body || root, { childList: true, subtree: true });
+    // characterData too: a KPI value that updates in place re-syncs its face
+    new MutationObserver(queue).observe(document.body || root, { childList: true, subtree: true, characterData: true });
     // One re-measure after our layout tweaks are in place
     setTimeout(() => window.dispatchEvent(new Event("resize")), 400);
   };
