@@ -1,0 +1,5 @@
+# Private: screenshots contain real business data; tools are machine-specific dev helpers
+shots/
+tools/
+.DS_Store
+*.log

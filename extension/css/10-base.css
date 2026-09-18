@@ -1,0 +1,79 @@
+/* Base: type, page background, scrollbars, focus, motion */
+
+html.pm-on {
+  & body {
+    font-family: var(--pm-font) !important;
+    color: var(--pm-ink-2);
+    background: var(--pm-bg) fixed !important;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* System font everywhere except icon-font glyphs */
+  & body :not([class^="ico-"]):not([class*=" ico-"]):not(.glyphicon):not(.fa):not([class*="material-icons"]) {
+    font-family: var(--pm-font) !important;
+  }
+
+  & h1, & h2, & h3, & h4, & h5 { color: var(--pm-ink); }
+
+  & ::selection { background: rgba(58, 86, 232, 0.2); }
+
+  /* Keyboard focus is visible, mouse focus is quiet */
+  & :focus { outline: none; }
+  & :focus-visible {
+    outline: 2px solid rgba(58, 86, 232, 0.55) !important;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Shells that painted flat gray: let the gradient through */
+  & #wrapper-app-layout,
+  & .js-standard-layout,
+  & .body,
+  & .page-body,
+  & .body.dashboard-body,
+  & #dashboard,
+  & #dashboard-body,
+  & #dashboard-header,
+  & div#navigation-side.navigation-side,
+  & #query,
+  & .query-container,
+  & .query-toolbar,
+  & .query-lower-part {
+    background: transparent !important;
+  }
+
+  /* Scrollbars: thin, rounded, fade in on hover */
+  & *::-webkit-scrollbar { width: 10px; height: 10px; }
+  & *::-webkit-scrollbar-track { background: transparent; }
+  & *::-webkit-scrollbar-corner { background: transparent; }
+  & *::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  /* Thumbs appear only where the pointer or focus is, like macOS */
+  & *:hover::-webkit-scrollbar-thumb,
+  & *:focus-within::-webkit-scrollbar-thumb { background-color: rgba(15, 23, 42, 0.16); }
+  & *::-webkit-scrollbar-thumb:hover { background-color: rgba(15, 23, 42, 0.30) !important; }
+
+  /* Content arrives with a short fade (opacity only: no transforms that
+     would shift JS measurements) */
+  & .query-lower-part,
+  & #vite-app-root {
+    animation: pm-arrive 0.28s var(--pm-ease) both;
+  }
+}
+
+@keyframes pm-arrive {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.pm-on * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,184 @@
+/* Signature layer: the bolder look on top of the base system.
+   Richer canvas, floating glass toolbars, large titles, filter in the card
+   header, editorial grid headers. Loaded last so it wins ties. */
+
+html.pm-on {
+  /* ---------- Canvas: a soft color field so glass reads as glass ---------- */
+  --pm-bg:
+    radial-gradient(900px 620px at 8% 0%, rgba(129, 140, 248, 0.42), transparent 62%),
+    radial-gradient(820px 560px at 92% 4%, rgba(56, 189, 248, 0.30), transparent 60%),
+    radial-gradient(900px 700px at 70% 100%, rgba(192, 132, 252, 0.26), transparent 62%),
+    radial-gradient(700px 520px at 18% 96%, rgba(94, 234, 212, 0.18), transparent 60%),
+    linear-gradient(160deg, #eef1fb 0%, #eaeefa 45%, #f1ecfb 100%);
+  --pm-glass-strong: rgba(255, 255, 255, 0.78);
+  --pm-shadow-card: 0 1px 1px rgba(15, 23, 42, 0.04), 0 10px 30px -8px rgba(30, 41, 99, 0.16);
+  --pm-shadow-hover: 0 1px 1px rgba(15, 23, 42, 0.04), 0 18px 40px -10px rgba(30, 41, 99, 0.24);
+
+  /* ---------- Title bar: large title ---------- */
+  & #phocas-navigation-title-text,
+  & #navigation-top [aria-current="page"] * {
+    font-family: var(--pm-font-display) !important;
+    font-size: 18px !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  /* ---------- Dashboard toolbar: two floating glass pills ---------- */
+  & #dashboard #dashboard-header { padding: 10px 14px 6px !important; }
+  & #dashboard-header .toolbar.left,
+  & #dashboard-header .toolbar.right {
+    background: rgba(255, 255, 255, 0.62);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    border-radius: 14px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8), 0 6px 20px -8px rgba(30, 41, 99, 0.25);
+    padding: 4px !important;
+    margin-top: 0 !important;
+  }
+  & #dashboard-header .toolbar.left .btn,
+  & #dashboard-header .toolbar.right .btn { box-shadow: none !important; }
+  & #dashboard-header .toolbar .btn-default:not(.btn-ico):not(.no-border) {
+    background: transparent !important;
+    border-color: transparent !important;
+  }
+  & #dashboard-header .toolbar .btn-default:not(.btn-ico):not(.no-border):hover { background: var(--pm-fill-hover) !important; }
+  & #dashboard-header .toolbar-buttons { background: transparent !important; box-shadow: none !important; padding: 0 !important; }
+  & #dashboard-header [data-id="divSelections"] > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 26px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--pm-accent-soft);
+    color: var(--pm-accent);
+    font-weight: 600;
+  }
+  & #dashboard-header [data-id="divSelections"] .ico-cross { cursor: pointer; opacity: 0.7; }
+  & #dashboard-header [data-id="divSelections"] .ico-cross:hover { opacity: 1; }
+
+  /* ---------- Section titles: large, editorial ---------- */
+  & .dashboard-line .line-header h3 {
+    font-size: 24px !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.028em !important;
+    color: var(--pm-ink) !important;
+  }
+  & .dashboard-line:not(.pm-untitled) > .line-header { padding-top: 10px; }
+
+  /* ---------- Widget cards ---------- */
+  & .dashboard-widget { padding: 7px; }
+  & .dashboard-widget > .widget-fullscreen {
+    position: relative;
+    border-radius: 18px;
+  }
+  & .widget-header { padding-top: 8px; }
+  & .widget-name-line h4 {
+    font-size: 15px !important;
+    font-weight: 650 !important;
+    letter-spacing: -0.015em !important;
+  }
+  & .widget-descr-line h5 { font-size: 12px !important; color: var(--pm-muted) !important; margin-top: 2px; }
+
+  /* Filter moves up into the title row (top right of the card). The row it
+     used to occupy collapses, so the grid gets that height back. */
+  & .dashboard-widget .widget-content-header-container {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    height: 0;
+    z-index: 3;
+    overflow: visible;
+  }
+  & .dashboard-widget .widget-content-header-container .local-query-control .form-control {
+    width: 150px !important;
+    height: 28px !important;
+  }
+  & .dashboard-widget .widget-content-header-container .local-query-control .btn-ico { display: none !important; }
+  & .dashboard-widget .widget-name-line,
+  & .dashboard-widget .widget-descr-line { padding-right: 170px; }
+  & .dashboard-widget .widget-name-line h4,
+  & .dashboard-widget .widget-descr-line h5 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ---------- Grids: editorial header, confident total ---------- */
+  & .js-grid .js-grid-main { border: 0 !important; box-shadow: inset 0 0 0 1px var(--pm-line); }
+  & .js-grid .js-grid-main-title,
+  & .js-grid .js-grid-main-title td { background: transparent !important; }
+  & .js-grid .js-grid-main-title td {
+    font-size: 10.5px !important;
+    line-height: 17.1429px !important; /* same row height as before: frozen tables stay aligned */
+    font-weight: 650 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.055em;
+    color: var(--pm-faint) !important;
+  }
+  & .js-grid .js-grid-main-title td.ascending,
+  & .js-grid .js-grid-main-title td.descending { color: var(--pm-accent) !important; }
+  & .js-grid .js-grid-main-header,
+  & .js-grid .js-grid-main-header td { background: #f4f6fe !important; }
+  & .js-grid .js-grid-main-header td {
+    color: var(--pm-ink) !important;
+    font-weight: 750 !important;
+    border-bottom-color: rgba(58, 86, 232, 0.18) !important;
+  }
+  & .js-grid .js-grid-main-body .js-grid-main-body-left td { background-color: #fbfcff; }
+  & .js-grid .js-grid-main-body td.growOnly.text { color: var(--pm-ink); }
+
+  /* ---------- Analytics: stronger grid card + list ---------- */
+  & #query-view,
+  & #dimensions-container { border-radius: 18px; }
+  & .query-label-buttons > .btn-group > .btn.two-lines {
+    background: rgba(255, 255, 255, 0.6) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.85), 0 4px 14px -6px rgba(30, 41, 99, 0.22) !important;
+  }
+}
+
+html.pm-on {
+  /* ---------- Smoothness ----------
+     Blur only on fixed chrome. Scrolling content (cards, grid cards, lists)
+     uses a solid surface: identical look on this canvas, far cheaper to
+     composite, so scrolling stays at full frame rate. */
+  & .dashboard-widget > .widget-fullscreen,
+  & #query-view,
+  & #dimensions-container,
+  & .query-label-buttons > .btn-group > .btn.two-lines {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  & .dashboard-widget > .widget-fullscreen { background: rgba(255, 255, 255, 0.9) !important; }
+  & #query-view { background: rgba(255, 255, 255, 0.92) !important; }
+  & #dimensions-container { background: rgba(255, 255, 255, 0.72) !important; }
+  & .query-label-buttons > .btn-group > .btn.two-lines { background: rgba(255, 255, 255, 0.78) !important; }
+
+  /* Promote the scroll containers to their own layers */
+  & #dashboard-body,
+  & .js-grid-main-body-right,
+  & #dimensions { overscroll-behavior: contain; }
+
+  /* One easing curve everywhere; slightly longer, softer hover */
+  & .dashboard-widget > .widget-fullscreen { transition: box-shadow 0.28s var(--pm-ease), transform 0.28s var(--pm-ease); }
+  & .btn, & .dropdown-menu > li > a, & #navigation-side [id^="button-"] { transition-timing-function: var(--pm-ease) !important; }
+}
+
+html.pm-on {
+  /* Pager pill: visible segmented surface */
+  & .js-grid-pagination > a[data-id="aFirst"],
+  & .js-grid-pagination > a[data-id="aPrevious"],
+  & .js-grid-pagination > [data-id="spnPage"],
+  & .js-grid-pagination > a[data-id="aNext"],
+  & .js-grid-pagination > a[data-id="aLast"] {
+    background: rgba(15, 23, 42, 0.05);
+    box-shadow: inset 0 1px 0 rgba(15, 23, 42, 0.06), inset 0 -1px 0 rgba(15, 23, 42, 0.06);
+  }
+  & .js-grid-pagination > a[data-id="aFirst"] { box-shadow: inset 1px 0 0 rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(15, 23, 42, 0.06), inset 0 -1px 0 rgba(15, 23, 42, 0.06); }
+  & .js-grid-pagination > a[data-id="aLast"] { box-shadow: inset -1px 0 0 rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(15, 23, 42, 0.06), inset 0 -1px 0 rgba(15, 23, 42, 0.06); }
+  & .js-grid-pagination > a[data-id="aFirst"]:hover,
+  & .js-grid-pagination > a[data-id="aPrevious"]:hover,
+  & .js-grid-pagination > a[data-id="aNext"]:hover,
+  & .js-grid-pagination > a[data-id="aLast"]:hover { background: var(--pm-accent-soft-2); }
+}

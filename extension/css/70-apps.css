@@ -1,0 +1,36 @@
+/* React (MUI) sub apps: Home, Insights, Financial Statements, etc. */
+
+html.pm-on {
+  /* Outer shells go transparent so the canvas gradient shows */
+  & #vite-app-root [class*="MuiScopedCssBaseline-root"],
+  & #vite-app-root [class*="MuiScopedCssBaseline-root"] > *,
+  & #vite-app-root [class*="MuiScopedCssBaseline-root"] > * > * {
+    background-color: transparent !important;
+  }
+
+  & #vite-app-root h1,
+  & #vite-app-root h2,
+  & #vite-app-root [class*="MuiTypography-h"] {
+    font-family: var(--pm-font-display) !important;
+    color: var(--pm-ink) !important;
+    letter-spacing: -0.022em;
+  }
+
+  /* Cards/papers */
+  & #vite-app-root [class*="MuiPaper-root"]:not([class*="MuiMenu"]):not([class*="MuiPopover"]) {
+    border-radius: var(--pm-r-xl);
+  }
+
+  /* List rows on Home: generous hover */
+  & #vite-app-root [class*="StyledListItem"] {
+    border-radius: var(--pm-r-md);
+    transition: background-color var(--pm-fast);
+  }
+  & #vite-app-root [class*="StyledListItem"]:hover { background: rgba(58, 86, 232, 0.045) !important; }
+  & #vite-app-root [class*="StyledListItem"] a { color: var(--pm-ink) !important; font-weight: 600; }
+  & #vite-app-root [class*="StyledListItem"] a:hover { color: var(--pm-accent) !important; }
+
+  /* Tabs row under page title */
+  & #vite-app-root [role="tab"] { color: var(--pm-muted) !important; font-weight: 600 !important; }
+  & #vite-app-root [role="tab"][aria-selected="true"] { color: var(--pm-ink) !important; }
+}

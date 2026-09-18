@@ -1,0 +1,200 @@
+/* Phocas js-grid. Cell sizes are computed by Phocas JS and the frozen left
+   and right tables must stay aligned, so only color, type, radius and
+   border COLOR change here: never padding, height or border width. */
+
+html.pm-on {
+  & .js-grid,
+  & #grid.js-grid { background: transparent !important; }
+
+  & .js-grid .js-grid-main {
+    background: var(--pm-surface) !important;
+    border-color: var(--pm-line) !important;
+    border-radius: var(--pm-r-md);
+    overflow: hidden;
+  }
+
+  /* Column title row + summary header */
+  & .js-grid .js-grid-main-title,
+  & .js-grid .js-grid-main-header { background: var(--pm-surface-2) !important; }
+  & .js-grid td { border-color: var(--pm-line) !important; }
+  & .js-grid .js-grid-main-title td,
+  & .js-grid .js-grid-main-header td {
+    color: var(--pm-muted) !important;
+    font-weight: 600 !important;
+    border-right-color: transparent !important;
+  }
+  & .js-grid .js-grid-main-header td { color: var(--pm-ink) !important; font-weight: 700 !important; }
+
+  /* Sortable / draggable column titles: make the affordances visible */
+  & .js-grid .js-grid-main-title td.sortable { cursor: pointer; transition: color var(--pm-fast), background-color var(--pm-fast); }
+  & .js-grid .js-grid-main-title td.sortable:hover { color: var(--pm-ink) !important; background: rgba(15, 23, 42, 0.035); }
+  & .js-grid .js-grid-main-title td.draggable { cursor: grab; }
+  & .js-grid .js-grid-main-title td.draggable:active { cursor: grabbing; }
+  & .js-grid .js-grid-main-title td.ascending,
+  & .js-grid .js-grid-main-title td.descending { color: var(--pm-accent) !important; }
+  & .js-grid .js-grid-main-title td i { color: inherit !important; }
+
+  /* Body */
+  & .js-grid .js-grid-main-body td {
+    background-color: var(--pm-surface);
+    color: var(--pm-ink-2);
+    border-right-color: transparent !important;
+  }
+  & .js-grid .js-grid-main-body .js-grid-main-body-left td { background-color: #fafbfe; }
+  & .js-grid td.number { font-variant-numeric: tabular-nums; }
+  & #grid tr:not(.highlight):not(.selected).summary-row { background-color: #f3f5fc; font-weight: 700; color: var(--pm-ink); }
+  & .js-grid td.row-number span {
+    background: transparent !important;
+    outline: 0 !important;
+    color: var(--pm-faint) !important;
+    font-variant-numeric: tabular-nums;
+    font-size: 11px;
+  }
+
+  /* Row states: Phocas toggles .hover/.selected/.highlight on both halves */
+  & .js-grid .js-grid-main-body tr.hover td { background-color: #eef2ff !important; }
+  & .js-grid .js-grid-main-body tr.selected td,
+  & .js-grid .js-grid-main-body td.selected {
+    background-color: #4763f0 !important;
+    color: #fff !important;
+  }
+  & .js-grid .js-grid-main-body tr.selected td span,
+  & .js-grid .js-grid-main-body tr.selected td a { color: #fff !important; }
+  & .js-grid .js-grid-main-body tr.highlight td,
+  & .js-grid .js-grid-main-body td.highlight {
+    background-color: #dde4ff !important;
+    color: var(--pm-ink) !important;
+  }
+  & .js-grid .js-grid-main-body tr.selected td.row-number span,
+  & .js-grid .js-grid-main-body tr.highlight td.row-number span { color: inherit !important; }
+  & #grid tr:not(.highlight):not(.selected) td:not(.selected):not(.highlight).negative,
+  & #grid tr:not(.highlight):not(.selected) td:not(.selected):not(.highlight).error { color: var(--pm-danger); }
+  & .js-grid-main-body a { color: var(--pm-accent); }
+
+  /* Frozen columns cast a shadow only while the grid is scrolled sideways
+     (pm.js toggles .pm-scrolled-x); box-shadow has no layout effect */
+  & .js-grid .js-grid-main-body-left,
+  & .js-grid .js-grid-main-title-left,
+  & .js-grid .js-grid-main-header-left { transition: box-shadow 0.2s var(--pm-ease); }
+  & .js-grid.pm-scrolled-x .js-grid-main-body-left,
+  & .js-grid.pm-scrolled-x .js-grid-main-title-left,
+  & .js-grid.pm-scrolled-x .js-grid-main-header-left {
+    box-shadow: 6px 0 10px -6px rgba(15, 23, 42, 0.16);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Inline data bars on the sorted measure column (js/bars.js sets --pm-bar) */
+  /* A slim inset bar anchored right (numbers are right aligned) */
+  & .js-grid .js-grid-main-body td.number.pm-bar {
+    background-image: linear-gradient(to left, rgba(58, 86, 232, 0.16), rgba(91, 124, 255, 0.10));
+    background-repeat: no-repeat;
+    background-position: right 3px center;
+    background-size: calc(var(--pm-bar) - 6px) 64%;
+  }
+  & .js-grid .js-grid-main-body td.number.pm-bar.pm-bar-neg {
+    background-image: linear-gradient(to left, rgba(220, 38, 38, 0.16), rgba(220, 38, 38, 0.08));
+  }
+  & .js-grid .js-grid-main-body tr.selected td.pm-bar,
+  & .js-grid .js-grid-main-body tr.highlight td.pm-bar,
+  & .js-grid .js-grid-main-body td.selected.pm-bar { background-image: none !important; }
+
+  /* ---------- Footer: pager, sum/avg, count ----------
+     Icon-font glyphs are swapped for crisp SVG masks; the pager reads as a
+     segmented pill: [freeze] [all]   |< < 1 of 13 > >|
+     Everything stays within the footer's original ~17px height. */
+  & .js-grid .js-grid-footer {
+    color: var(--pm-muted);
+    font-variant-numeric: tabular-nums;
+    font-size: 11px;
+    align-items: center;
+  }
+  & .js-grid .js-grid-count { color: var(--pm-faint); font-size: 11px; }
+  & .js-grid .js-grid-sum-average { color: var(--pm-muted); font-size: 11px; }
+
+  & .js-grid-pagination {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0;
+    height: 18px;
+    line-height: 18px;
+  }
+  & .js-grid-pagination > a {
+    order: 3;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 18px;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: var(--pm-muted) !important;
+    background: var(--pm-fill);
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: background-color var(--pm-fast), color var(--pm-fast);
+  }
+  & .js-grid-pagination > a:hover { background: var(--pm-accent-soft); color: var(--pm-accent) !important; }
+  & .js-grid-pagination > a:active { background: var(--pm-accent-soft-2); }
+
+  /* Segment order and rounding */
+  & .js-grid-pagination > a[data-id="aFreeze"] { order: 1; border-radius: 6px; margin-right: 3px !important; background: transparent; }
+  & .js-grid-pagination > a[data-id="aShowAll"] { order: 2; border-radius: 6px; margin-right: 8px !important; background: transparent; }
+  & .js-grid-pagination > a[data-id="aFirst"] { order: 3; border-radius: 6px 0 0 6px; }
+  & .js-grid-pagination > a[data-id="aPrevious"] { order: 4; }
+  & .js-grid-pagination > [data-id="spnPage"] {
+    order: 5;
+    height: 18px;
+    padding: 0 8px;
+    background: var(--pm-fill);
+    color: var(--pm-ink-2);
+    font-weight: 600;
+    font-size: 11px;
+    white-space: nowrap;
+    margin: 0 !important;
+  }
+  & .js-grid-pagination > [data-id="spnPage"]:empty { display: none; }
+  & .js-grid-pagination > a[data-id="aNext"] { order: 6; }
+  & .js-grid-pagination > a[data-id="aLast"] { order: 7; border-radius: 0 6px 6px 0; }
+
+  /* Glyphs -> SVG masks */
+  & .js-grid-pagination i {
+    display: block;
+    width: 12px;
+    height: 12px;
+    font-size: 0 !important;
+    background-color: currentColor;
+    -webkit-mask: var(--pm-ico) center / 12px 12px no-repeat;
+    mask: var(--pm-ico) center / 12px 12px no-repeat;
+    color: inherit !important;
+  }
+  & .js-grid-pagination i::before { content: none !important; }
+  & .js-grid-pagination i.ico-first { --pm-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%203.5v9%22/%3E%3Cpath%20d%3D%22M11.5%203.5%207%208l4.5%204.5%22/%3E%3C/svg%3E"); }
+  & .js-grid-pagination i.ico-previous { --pm-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203.5%205.5%208l4.5%204.5%22/%3E%3C/svg%3E"); }
+  & .js-grid-pagination i.ico-next { --pm-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%203.5%2010.5%208%206%2012.5%22/%3E%3C/svg%3E"); }
+  & .js-grid-pagination i.ico-last { --pm-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12%203.5v9%22/%3E%3Cpath%20d%3D%22M4.5%203.5%209%208l-4.5%204.5%22/%3E%3C/svg%3E"); }
+  & .js-grid-pagination i.ico-freeze { --pm-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222.5%22%20y%3D%222.5%22%20width%3D%2211%22%20height%3D%2211%22%20rx%3D%222%22/%3E%3Cpath%20d%3D%22M6.5%202.5v11%22/%3E%3C/svg%3E"); }
+  & .js-grid-pagination i.ico-paginate { --pm-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%204.5h10M3%208h10M3%2011.5h10%22/%3E%3C/svg%3E"); }
+  /* Active toggles (frozen columns / show all) */
+  & .js-grid-pagination i.selected { color: var(--pm-accent) !important; }
+  & .js-grid-pagination > a:has(i.selected) { background: var(--pm-accent-soft) !important; }
+  /* Disabled / hidden states Phocas sets */
+  & .js-grid-pagination > a.disabled,
+  & .js-grid-pagination > a[disabled] { opacity: 0.35; pointer-events: none; }
+
+  /* Drag ghost + drop marker used when moving columns */
+  & .ui-sortable-helper,
+  & .js-grid-drag-helper,
+  & .in-flight-dimension {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: var(--pm-r-sm) !important;
+    box-shadow: var(--pm-shadow-pop) !important;
+    color: var(--pm-ink) !important;
+  }
+  & .ui-sortable-placeholder {
+    background: var(--pm-accent-soft) !important;
+    border: 2px dashed rgba(58, 86, 232, 0.4) !important;
+    border-radius: var(--pm-r-md);
+    visibility: visible !important;
+  }
+}

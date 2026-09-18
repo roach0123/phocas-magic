@@ -1,0 +1,192 @@
+/* Controls: buttons, inputs, checkboxes, chips, dropdown menus */
+
+html.pm-on {
+  /* ---------- Buttons ---------- */
+  & .btn {
+    font-weight: 500;
+    border-radius: var(--pm-r-md) !important;
+    transition: background-color var(--pm-fast), box-shadow var(--pm-fast), transform 0.1s, color var(--pm-fast), border-color var(--pm-fast) !important;
+  }
+  & .btn:active { transform: scale(0.97); }
+  & .btn[disabled],
+  & .btn.disabled,
+  & .disabled > .btn {
+    opacity: 0.42 !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  & .btn-primary,
+  & .btn-primary:focus {
+    background: var(--pm-accent-grad) !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    box-shadow: 0 1px 2px rgba(58, 86, 232, 0.2), 0 4px 12px rgba(58, 86, 232, 0.22);
+  }
+  & .btn-primary:hover:not([disabled]) {
+    box-shadow: 0 6px 18px rgba(58, 86, 232, 0.36) !important;
+    transform: translateY(-1px);
+  }
+
+  & .btn-danger,
+  & .btn-danger:focus {
+    background: rgba(220, 38, 38, 0.08) !important;
+    border-color: rgba(220, 38, 38, 0.16) !important;
+    color: var(--pm-danger) !important;
+  }
+  & .btn-danger:hover:not([disabled]) { background: rgba(220, 38, 38, 0.14) !important; }
+
+  /* Disabled actions carry no brand color: only actionable controls do */
+  & .btn-primary[disabled], & .btn-primary.disabled, & .disabled > .btn-primary,
+  & .btn-danger[disabled], & .btn-danger.disabled, & .disabled > .btn-danger {
+    background: var(--pm-fill) !important;
+    color: var(--pm-faint) !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+  }
+
+  & .btn-success,
+  & .btn-success:focus {
+    background: rgba(22, 163, 74, 0.10) !important;
+    border-color: transparent !important;
+    color: var(--pm-success) !important;
+  }
+
+  & .btn-default,
+  & .btn-default:focus {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-color: var(--pm-line-strong) !important;
+    color: var(--pm-ink-2) !important;
+    box-shadow: var(--pm-shadow-sm);
+  }
+  & .btn-default:hover:not([disabled]) { background: #fff !important; border-color: rgba(15, 23, 42, 0.18) !important; }
+  & .open > .btn-default.dropdown-toggle,
+  & .btn-default.active {
+    background: #fff !important;
+    border-color: rgba(58, 86, 232, 0.45) !important;
+    box-shadow: var(--pm-accent-ring) !important;
+    color: var(--pm-ink) !important;
+  }
+
+  /* Icon buttons are ghost buttons */
+  & .btn-ico,
+  & .btn-default.no-border,
+  & .btn-default.btn-ico {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    border-radius: var(--pm-r-sm) !important;
+    color: var(--pm-muted) !important;
+  }
+  & .btn-ico:hover:not([disabled]),
+  & .btn-default.no-border:hover:not([disabled]) {
+    background: var(--pm-fill-hover) !important;
+    color: var(--pm-ink) !important;
+  }
+  & .btn-ico.btn-success { color: var(--pm-success) !important; }
+
+  /* Button groups read as segmented controls */
+  & .btn-group > button.btn:not(:only-of-type):not(.btn-ico) { border-radius: 0 !important; }
+  & .btn-group > button.btn:not(:only-of-type):not(.btn-ico):first-of-type { border-radius: var(--pm-r-md) 0 0 var(--pm-r-md) !important; }
+  & .btn-group > button.btn:not(:only-of-type):not(.btn-ico):last-of-type { border-radius: 0 var(--pm-r-md) var(--pm-r-md) 0 !important; }
+
+  & .caret { opacity: 0.55; }
+
+  /* ---------- Inputs ---------- */
+  & .form-control,
+  & input[type="text"]:not([class*="MuiInputBase"]),
+  & input[type="search"]:not([class*="MuiInputBase"]),
+  & input[type="password"]:not([class*="MuiInputBase"]),
+  & input[type="number"]:not([class*="MuiInputBase"]),
+  & input[type="email"]:not([class*="MuiInputBase"]),
+  & select,
+  & textarea:not([class*="MuiInputBase"]) {
+    border: 1px solid var(--pm-line-strong) !important;
+    border-radius: var(--pm-r-sm) !important;
+    box-shadow: none !important;
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    color: var(--pm-ink) !important;
+    transition: border-color var(--pm-fast), box-shadow var(--pm-fast), background-color var(--pm-fast);
+  }
+  & .form-control:hover,
+  & input[type="text"]:not([class*="MuiInputBase"]):hover { border-color: rgba(15, 23, 42, 0.2) !important; }
+  & .form-control:focus,
+  & input:not([class*="MuiInputBase"]):focus,
+  & select:focus,
+  & textarea:not([class*="MuiInputBase"]):focus {
+    border-color: rgba(58, 86, 232, 0.55) !important;
+    box-shadow: var(--pm-accent-ring) !important;
+    background-color: #fff !important;
+    outline: none !important;
+  }
+  & ::placeholder { color: var(--pm-faint) !important; opacity: 1; }
+
+  & input[type="checkbox"],
+  & input[type="radio"] { accent-color: var(--pm-accent); }
+
+  /* ---------- Bootstrap dropdown menus ---------- */
+  & .dropdown-menu {
+    border: 1px solid var(--pm-line) !important;
+    border-radius: var(--pm-r-lg) !important;
+    box-shadow: var(--pm-shadow-pop) !important;
+    padding: 6px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    animation: pm-pop 0.16s var(--pm-ease);
+    transform-origin: top left;
+  }
+  & .dropdown-menu.pull-right,
+  & .pull-right > .dropdown-menu { transform-origin: top right; }
+  & .dropdown-menu > li > a,
+  & .dropdown-menu > li > span,
+  & .dropdown-menu .dropdown-item {
+    border-radius: 7px;
+    padding: 6px 10px;
+    color: var(--pm-ink-2) !important;
+    transition: background-color 0.1s, color 0.1s;
+  }
+  & .dropdown-menu > li > a:hover,
+  & .dropdown-menu > li > a:focus,
+  & .dropdown-menu .dropdown-item:hover {
+    background: var(--pm-accent) !important;
+    color: #fff !important;
+  }
+  & .dropdown-menu > li > a:hover *,
+  & .dropdown-menu > li > a:focus * { color: #fff !important; }
+  & .dropdown-menu > .active > a,
+  & .dropdown-menu > .active > a:hover {
+    background: var(--pm-accent-soft) !important;
+    color: var(--pm-accent) !important;
+    font-weight: 600;
+  }
+  & .dropdown-menu .divider { background: var(--pm-line) !important; margin: 5px 4px !important; }
+  & .dropdown-header {
+    color: var(--pm-faint) !important;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ---------- MUI controls in the React sub apps ---------- */
+  & #vite-app-root [class*="MuiChip-root"] {
+    border-radius: 999px !important;
+    transition: background-color var(--pm-fast), box-shadow var(--pm-fast);
+  }
+  & [class*="MuiPaper-root"][class*="MuiMenu-paper"],
+  & [class*="MuiPaper-root"][class*="MuiPopover-paper"] {
+    border-radius: var(--pm-r-lg) !important;
+    box-shadow: var(--pm-shadow-pop) !important;
+    border: 1px solid var(--pm-line);
+  }
+  & [class*="MuiMenuItem-root"] { border-radius: 7px; margin: 0 6px; }
+  & [class*="MuiTab-root"] { text-transform: none !important; font-weight: 600 !important; }
+  & [class*="MuiTabs-indicator"] { height: 3px !important; border-radius: 3px 3px 0 0; }
+}
+
+@keyframes pm-pop {
+  from { opacity: 0; transform: scale(0.97) translateY(-2px); }
+  to { opacity: 1; transform: none; }
+}

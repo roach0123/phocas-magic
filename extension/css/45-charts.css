@@ -1,0 +1,111 @@
+/* Highcharts: quieter chrome, system type, palette aligned with the accent.
+   Highcharts writes colors as SVG attributes; CSS properties override those. */
+
+html.pm-on {
+  & .highcharts-container,
+  & .highcharts-container text { font-family: var(--pm-font) !important; }
+
+  /* Charts sit on the card's glass */
+  & .highcharts-background { fill: transparent !important; }
+  & .highcharts-plot-background { fill: transparent !important; }
+
+  /* Gridlines: hairline and faint; axis lines off (gridlines already frame) */
+  & .highcharts-grid-line { stroke: rgba(15, 23, 42, 0.07) !important; }
+  & .highcharts-axis-line { stroke: rgba(15, 23, 42, 0.12) !important; }
+  & .highcharts-tick { stroke: transparent !important; }
+  & .highcharts-axis-labels text {
+    fill: var(--pm-muted) !important;
+    font-size: 10.5px !important;
+    font-variant-numeric: tabular-nums !important;
+  }
+  /* (radial/gauge axes use the "title" for their big value: leave those alone) */
+  & .highcharts-axis:not(.highcharts-radial-axis) .highcharts-axis-title,
+  & .highcharts-axis:not(.highcharts-radial-axis) .highcharts-axis-title text {
+    fill: var(--pm-faint) !important;
+    font-size: 10.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em;
+  }
+
+  /* Legend */
+  & .highcharts-legend-item text {
+    fill: var(--pm-ink-2) !important;
+    font-weight: 500 !important;
+  }
+  & .highcharts-legend-item:hover text { fill: var(--pm-ink) !important; }
+  & .highcharts-legend-item-hidden text { fill: var(--pm-faint) !important; }
+
+  /* Lines: a touch heavier with round joins */
+  & .highcharts-graph {
+    stroke-width: 2.25px !important;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  & .highcharts-point { transition: opacity 0.15s; }
+  & .highcharts-series-hover .highcharts-graph { stroke-width: 3px !important; }
+
+  /* Pie / donut slices get crisp white separators */
+  & .highcharts-pie-series .highcharts-point {
+    stroke: #fff !important;
+    stroke-width: 1.5px !important;
+    stroke-linejoin: round;
+  }
+  & .highcharts-data-label text,
+  & .highcharts-data-label span { font-weight: 600 !important; }
+
+  /* Tooltip: glass card */
+  & .highcharts-tooltip-box {
+    fill: rgba(255, 255, 255, 0.96) !important;
+    stroke: rgba(15, 23, 42, 0.08) !important;
+    filter: drop-shadow(0 8px 18px rgba(15, 23, 42, 0.16));
+  }
+  & .highcharts-tooltip text { fill: var(--pm-ink) !important; }
+  & div.highcharts-tooltip > span,
+  & .highcharts-tooltip-container {
+    font-family: var(--pm-font) !important;
+  }
+
+  /* Palette: Phocas brand hues -> accent family. Attribute selectors catch the
+     values Highcharts writes; case-insensitive because Phocas uses upper hex. */
+  & .highcharts-container [fill="#07B8D6" i] { fill: #3a56e8 !important; }
+  & .highcharts-container [stroke="#07B8D6" i] { stroke: #3a56e8 !important; }
+  /* Comparison series (Previous, Budget) reads as neutral slate beside the accent */
+  & .highcharts-container [fill="#693795" i] { fill: #a3adc2 !important; }
+  & .highcharts-container [stroke="#693795" i] { stroke: #a3adc2 !important; }
+  & .highcharts-container [fill="#85D6E9" i] { fill: #93a8ff !important; }
+  & .highcharts-container [stroke="#85D6E9" i] { stroke: #93a8ff !important; }
+  & .highcharts-container [fill="#007C96" i] { fill: #24348f !important; }
+  & .highcharts-container [stroke="#007C96" i] { stroke: #24348f !important; }
+  & .highcharts-container [fill="#005064" i] { fill: #1b266b !important; }
+  & .highcharts-container [stroke="#005064" i] { stroke: #1b266b !important; }
+  & .highcharts-container [fill="#4EC6E0" i] { fill: #7d93ff !important; }
+  & .highcharts-container [stroke="#4EC6E0" i] { stroke: #7d93ff !important; }
+  /* Marker outlines stay white so points read as dots on the line */
+  & .highcharts-markers .highcharts-point { stroke: #fff !important; stroke-width: 1.5px; }
+}
+
+html.pm-on {
+  /* ---------- Structure (with js/charts.js) ---------- */
+  /* Dotted value gridlines read lighter than solid hairlines */
+  & .highcharts-yaxis-grid .highcharts-grid-line { stroke-dasharray: 2 4; }
+  & .highcharts-xaxis-grid .highcharts-grid-line { stroke: transparent !important; }
+
+  /* Comparison series (Previous / Budget): dashed so it reads as reference */
+  & .highcharts-graph[stroke="#693795" i] { stroke-dasharray: 6 5; stroke-width: 2px !important; }
+
+  /* Busy lines: markers stay hidden until you hover a point */
+  & .highcharts-markers.pm-many .highcharts-point { opacity: 0; transition: opacity 0.12s; }
+  & .highcharts-markers.pm-many .highcharts-point.highcharts-point-hover,
+  & .highcharts-series-hover + .highcharts-markers.pm-many .highcharts-point,
+  & .highcharts-markers.pm-many.highcharts-series-hover .highcharts-point { opacity: 1; }
+
+  /* Donut hole sits on the card surface */
+  & .pm-hole { fill: #fff; filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.06)); }
+
+  /* Legend: round color dots instead of squares */
+  & .highcharts-legend-item rect.highcharts-point,
+  & .highcharts-legend-item rect { rx: 6px; ry: 6px; }
+
+  /* Series ease in when a chart first draws */
+  & .highcharts-series-group { animation: pm-arrive 0.5s var(--pm-ease) both; }
+}

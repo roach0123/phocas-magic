@@ -1,0 +1,63 @@
+/* Phocas Magic: design tokens. Everything is scoped under html.pm-on so the
+   toolbar toggle can switch the whole theme off without a reload. */
+
+html.pm-on {
+  --pm-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --pm-font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+  --pm-ink: #0f172a;
+  --pm-ink-2: #334155;
+  --pm-muted: #64748b;
+  --pm-faint: #94a3b8;
+  --pm-line: rgba(15, 23, 42, 0.07);
+  --pm-line-strong: rgba(15, 23, 42, 0.12);
+  --pm-fill: rgba(15, 23, 42, 0.04);
+  --pm-fill-hover: rgba(15, 23, 42, 0.06);
+
+  --pm-accent: #3a56e8;
+  --pm-accent-2: #5b7cff;
+  --pm-accent-grad: linear-gradient(135deg, #3a56e8 0%, #5b7cff 100%);
+  --pm-accent-soft: rgba(58, 86, 232, 0.09);
+  --pm-accent-soft-2: rgba(58, 86, 232, 0.15);
+  --pm-accent-ring: 0 0 0 3px rgba(58, 86, 232, 0.18);
+  --pm-accent-glow: 0 2px 8px rgba(58, 86, 232, 0.22);
+  --pm-danger: #dc2626;
+  --pm-success: #16a34a;
+
+  --pm-surface: #ffffff;
+  --pm-surface-2: #f7f8fc;
+  --pm-glass: rgba(255, 255, 255, 0.66);
+  --pm-glass-strong: rgba(255, 255, 255, 0.86);
+  --pm-glass-edge: rgba(255, 255, 255, 0.75);
+
+  --pm-r-sm: 8px;
+  --pm-r-md: 10px;
+  --pm-r-lg: 14px;
+  --pm-r-xl: 18px;
+
+  --pm-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --pm-shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 24px rgba(15, 23, 42, 0.06);
+  --pm-shadow-hover: 0 2px 4px rgba(15, 23, 42, 0.05), 0 12px 32px rgba(15, 23, 42, 0.10);
+  --pm-shadow-pop: 0 2px 6px rgba(15, 23, 42, 0.06), 0 18px 48px rgba(15, 23, 42, 0.18);
+
+  --pm-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --pm-fast: 0.15s;
+
+  --pm-bg:
+    radial-gradient(1200px 700px at 12% -10%, rgba(125, 150, 255, 0.26), transparent 60%),
+    radial-gradient(900px 600px at 100% 0%, rgba(120, 200, 255, 0.20), transparent 55%),
+    radial-gradient(1000px 800px at 60% 110%, rgba(170, 140, 255, 0.14), transparent 60%),
+    linear-gradient(180deg, #f3f5fb 0%, #eef1f8 100%);
+
+  /* Phocas' own palette variables: cyan brand family becomes the blue accent family */
+  --palette-cyan-100: #e8ecff;
+  --palette-cyan-200: #d0d9ff;
+  --palette-cyan-300: #aebdff;
+  --palette-cyan-400: #7d93ff;
+  --palette-cyan-500: #3a56e8;
+  --palette-cyan-600: #2f45c4;
+  --palette-cyan-700: #24348f;
+  --palette-cyan-800: #1b266b;
+  --palette-cyan-900: #151f55;
+  --palette-bg: #f3f5fb;
+}

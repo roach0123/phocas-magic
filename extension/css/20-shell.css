@@ -1,0 +1,82 @@
+/* App shell: macOS style vibrancy sidebar + translucent title bar */
+
+html.pm-on {
+  /* ---------- Sidebar ---------- */
+  & #navigation-side[data-testid^="phocas-navigation-side-nav"] {
+    background: rgba(246, 247, 252, 0.74) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    backdrop-filter: blur(30px) saturate(180%);
+    box-shadow: inset -1px 0 0 var(--pm-line);
+  }
+
+  /* White wordmark becomes ink on the light sidebar */
+  & #phocas-navigation-phocas-logo-link img {
+    filter: brightness(0) saturate(100%) invert(9%) sepia(20%) saturate(2400%) hue-rotate(200deg);
+    opacity: 0.9;
+  }
+
+  & #navigation-side [id^="button-"] {
+    background: transparent !important;
+    border-radius: 9px !important;
+    color: var(--pm-ink-2) !important;
+    transition: background-color var(--pm-fast), color var(--pm-fast), transform 0.1s;
+  }
+  & #navigation-side [id^="button-"]:hover {
+    background: var(--pm-fill-hover) !important;
+    color: var(--pm-ink) !important;
+  }
+  & #navigation-side [id^="button-"]:active { transform: scale(0.98); }
+  & #navigation-side [id^="button-"] p {
+    color: inherit !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+  }
+  & #navigation-side [id^="button-"] span { color: var(--pm-accent) !important; }
+  & #navigation-side [id^="button-"] svg { width: 18px; height: 18px; }
+
+  & #navigation-side [id^="button-"].activeNavItem {
+    background: var(--pm-accent-grad) !important;
+    color: #fff !important;
+    box-shadow: var(--pm-accent-glow), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  }
+  & #navigation-side [id^="button-"].activeNavItem span { color: #fff !important; }
+
+  & #navigation-side [id$="-access-required"],
+  & #navigation-side [id$="-access-required"] span { color: var(--pm-faint) !important; }
+
+  & #navigation-side [data-testid$="-group"] {
+    background: var(--pm-fill) !important;
+    border-radius: 12px !important;
+  }
+  & #navigation-side hr { background: var(--pm-line) !important; border: 0 !important; }
+  & #navigation-side [data-testid="phocas-navigation-product-trial-pill"] {
+    background: var(--pm-accent-soft) !important;
+    color: var(--pm-accent) !important;
+    font-weight: 600;
+  }
+  & #navigation-side [data-testid="phocas-navigation-arrow-left"] { color: #fff !important; }
+
+  /* Flyout sub menus (Recents, Favourites, Dashboards): keep Phocas' panel,
+     just soften the list rows */
+  & [data-testid^="phocas-navigation-sub-menu"] [class*="MuiChip-root"] { box-shadow: none !important; }
+
+  /* ---------- Title bar ---------- */
+  & #navigation-top[data-testid="phocas-navigation-top-nav"] {
+    background: rgba(255, 255, 255, 0.5) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: 0 1px 0 var(--pm-line);
+  }
+  & #navigation-top nav[aria-label="Breadcrumb"] * { color: var(--pm-muted); }
+  & #phocas-navigation-title-text,
+  & #navigation-top [aria-current="page"] * {
+    font-weight: 700 !important;
+    letter-spacing: -0.015em;
+    color: var(--pm-ink) !important;
+  }
+  & #navigation-top button { border-radius: 8px; transition: background-color var(--pm-fast); }
+  & #navigation-top button:hover { background: var(--pm-fill-hover); }
+  & #navigation-top [class*="MuiAvatar-root"] {
+    box-shadow: 0 0 0 2px #fff, 0 2px 8px rgba(15, 23, 42, 0.15);
+  }
+}

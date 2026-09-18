@@ -1,0 +1,167 @@
+/* Overlays: modals, popovers, tooltips, jQuery UI dialogs, notifications */
+
+html.pm-on {
+  /* ---------- Bootstrap modals ---------- */
+  & .modal-backdrop {
+    background: rgba(15, 23, 42, 0.28) !important;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+  & .modal-backdrop.in { opacity: 1 !important; }
+  & .modal-content {
+    border: 0 !important;
+    border-radius: var(--pm-r-xl) !important;
+    box-shadow: 0 0 0 1px var(--pm-line), 0 30px 80px rgba(15, 23, 42, 0.28) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    backdrop-filter: blur(30px) saturate(180%);
+    overflow: hidden;
+  }
+  & .modal.fade .modal-dialog { transition: transform 0.25s var(--pm-ease), opacity 0.2s !important; transform: scale(0.97) !important; }
+  & .modal.in .modal-dialog { transform: none !important; }
+  & .modal-header {
+    border-bottom: 1px solid var(--pm-line) !important;
+    padding: 16px 20px !important;
+  }
+  & .modal-title,
+  & .modal-header h4 {
+    font-family: var(--pm-font-display) !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.015em;
+    color: var(--pm-ink) !important;
+  }
+  & .modal-body { color: var(--pm-ink-2); }
+  & .modal-footer {
+    border-top: 1px solid var(--pm-line) !important;
+    background: var(--pm-surface-2);
+    padding: 12px 20px !important;
+  }
+  & .modal-header .close,
+  & button.close {
+    opacity: 0.5;
+    border-radius: 999px;
+    width: 28px;
+    height: 28px;
+    transition: opacity var(--pm-fast), background-color var(--pm-fast);
+  }
+  & .modal-header .close:hover,
+  & button.close:hover { opacity: 1; background: var(--pm-fill-hover); }
+
+  /* ---------- Phocas dialog component (.dialog) ---------- */
+  & .dialog-backdrop {
+    background: rgba(15, 23, 42, 0.28) !important;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+  & .dialog.bootstrap-scope {
+    border: 0 !important;
+    border-radius: var(--pm-r-xl) !important;
+    box-shadow: 0 0 0 1px var(--pm-line), 0 30px 80px rgba(15, 23, 42, 0.28) !important;
+    background: rgba(255, 255, 255, 0.97) !important;
+    overflow: hidden;
+  }
+  & .dialog.bootstrap-scope.shown { animation: pm-pop 0.2s var(--pm-ease); }
+  & .dialog-header {
+    background: transparent !important;
+    border-bottom: 1px solid var(--pm-line) !important;
+    padding: 14px 18px !important;
+  }
+  & .dialog-title h4 {
+    font-family: var(--pm-font-display) !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.015em;
+    color: var(--pm-ink) !important;
+  }
+  & .dialog-body { color: var(--pm-ink-2); }
+  & .dialog-footer {
+    background: var(--pm-surface-2) !important;
+    border-top: 1px solid var(--pm-line) !important;
+    padding: 12px 18px !important;
+  }
+
+  /* ---------- jQuery UI dialogs ---------- */
+  & .ui-dialog {
+    border: 0 !important;
+    border-radius: var(--pm-r-xl) !important;
+    box-shadow: 0 0 0 1px var(--pm-line), 0 30px 80px rgba(15, 23, 42, 0.28) !important;
+    overflow: hidden;
+    padding: 0 !important;
+  }
+  & .ui-dialog .ui-dialog-titlebar {
+    background: transparent !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--pm-line) !important;
+    border-radius: 0 !important;
+    color: var(--pm-ink) !important;
+    font-weight: 700;
+    padding: 14px 18px !important;
+  }
+  & .ui-widget-overlay {
+    background: rgba(15, 23, 42, 0.28) !important;
+    opacity: 1 !important;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+
+  /* ---------- Popovers & tooltips ---------- */
+  & .popover {
+    border: 1px solid var(--pm-line) !important;
+    border-radius: var(--pm-r-lg) !important;
+    box-shadow: var(--pm-shadow-pop) !important;
+  }
+  & .popover-title {
+    background: transparent !important;
+    border-bottom: 1px solid var(--pm-line) !important;
+    font-weight: 700;
+    color: var(--pm-ink);
+  }
+  & .tooltip-inner,
+  & [class*="MuiTooltip-tooltip"] {
+    background: rgba(20, 20, 28, 0.88) !important;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    border-radius: 8px !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+  & .tooltip.in { opacity: 1 !important; }
+  & .tooltip.top .tooltip-arrow { border-top-color: rgba(20, 20, 28, 0.88) !important; }
+  & .tooltip.bottom .tooltip-arrow { border-bottom-color: rgba(20, 20, 28, 0.88) !important; }
+  & .tooltip.left .tooltip-arrow { border-left-color: rgba(20, 20, 28, 0.88) !important; }
+  & .tooltip.right .tooltip-arrow { border-right-color: rgba(20, 20, 28, 0.88) !important; }
+
+  /* Bootstrap nav tabs */
+  & .nav-tabs { border-bottom: 1px solid var(--pm-line) !important; }
+  & .nav-tabs > li > a {
+    border: 0 !important;
+    border-radius: 8px 8px 0 0 !important;
+    color: var(--pm-muted) !important;
+    font-weight: 600;
+  }
+  & .nav-tabs > li.active > a,
+  & .nav-tabs > li.active > a:hover {
+    color: var(--pm-ink) !important;
+    background: transparent !important;
+    box-shadow: inset 0 -2px 0 var(--pm-accent);
+  }
+
+  /* Alerts / toasts */
+  & .alert { border-radius: var(--pm-r-md) !important; border: 0 !important; box-shadow: var(--pm-shadow-card); }
+  & .toast, & #toast-container > div {
+    border-radius: var(--pm-r-lg) !important;
+    box-shadow: var(--pm-shadow-pop) !important;
+    opacity: 1 !important;
+  }
+
+  /* Loading spinners/overlays */
+  & .loading-overlay,
+  & .blockUI.blockOverlay {
+    background: rgba(243, 245, 251, 0.6) !important;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+}

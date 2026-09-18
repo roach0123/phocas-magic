@@ -1,0 +1,140 @@
+/* Analytics (query) view: the property ribbon becomes a row of pill pickers,
+   the dimension column becomes a macOS style source list, the grid sits in a
+   card. */
+
+html.pm-on {
+  /* ---------- Property ribbon (Mode, Measures, Stream, Period ...) ---------- */
+  & .query-toolbar { padding-top: 6px; box-shadow: none !important; border: 0 !important; }
+  & .query-label-buttons { display: flex; gap: 6px; padding-left: 10px; }
+  & .query-label-buttons > .btn-group > .btn.two-lines {
+    height: auto;
+    min-height: 44px;
+    padding: 5px 14px 6px !important;
+    background: rgba(255, 255, 255, 0.72) !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    box-shadow: inset 0 0 0 1px var(--pm-line), var(--pm-shadow-sm) !important;
+    text-align: left;
+  }
+  & .query-label-buttons > .btn-group > .btn.two-lines:hover:not([disabled]) {
+    background: #fff !important;
+    box-shadow: inset 0 0 0 1px var(--pm-line-strong), var(--pm-shadow-card) !important;
+    transform: translateY(-1px);
+  }
+  & .query-label-buttons > .btn-group.open > .btn.two-lines {
+    background: #fff !important;
+    box-shadow: inset 0 0 0 1.5px rgba(58, 86, 232, 0.55), var(--pm-accent-ring) !important;
+  }
+  & .query-label-buttons .btn.two-lines > div:first-child {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--pm-faint) !important;
+    text-align: left;
+  }
+  & .query-label-buttons .btn.two-lines > div:nth-child(2) {
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    color: var(--pm-ink) !important;
+    letter-spacing: -0.005em;
+    text-align: left;
+  }
+  & .query-label-buttons .disabled > .btn.two-lines { opacity: 0.45 !important; }
+
+  /* Right hand tools */
+  & .query-toolbar .toolbar-divider { border-color: var(--pm-line-strong) !important; background: var(--pm-line-strong); width: 1px; margin: 12px 6px; }
+  & .query-toolbar .btn-ico i { color: var(--pm-muted); }
+  & .query-toolbar input.form-control {
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.72) !important;
+    padding-left: 14px !important;
+  }
+  & #genieButtonContainer button { border-radius: 999px !important; padding: 0 10px; }
+  & #genieButtonContainer button:hover { background: var(--pm-accent-soft) !important; }
+
+  /* Focus / Reset / Matrix row */
+  & .selections-toolbar { gap: 6px; }
+  & .selections-toolbar .btn { height: 32px; padding: 5px 14px; }
+
+  /* ---------- Dimension source list ---------- */
+  & #dimensions-container {
+    margin: 4px 0 10px 10px;
+    border-radius: var(--pm-r-lg);
+    background: rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    box-shadow: inset 0 0 0 1px var(--pm-glass-edge), var(--pm-shadow-card);
+  }
+  & #dimensions { margin: 8px 6px 0 8px !important; width: 180px; }
+  & #dimensions div.btn-group { margin: 0 0 2px !important; }
+  & #dimensions div.btn-group.pillar {
+    margin-top: 10px !important;
+    padding-top: 10px;
+    border-top: 1px solid var(--pm-line);
+  }
+  & #dimensions button.dimension-left {
+    width: 100% !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: var(--pm-r-sm) !important;
+    padding: 6px 10px !important;
+    color: var(--pm-ink-2) !important;
+    font-weight: 500;
+  }
+  & #dimensions button .dimension-text { justify-content: flex-start !important; }
+  & #dimensions button .dimension-text .dimension-title { margin-left: 0 !important; }
+  & #dimensions button.dimension-left:hover {
+    background: var(--pm-fill-hover) !important;
+    color: var(--pm-ink) !important;
+  }
+  & #dimensions div.btn-group.split button:first-child { width: calc(100% - 26px) !important; }
+  & #dimensions div.btn-group.split button:nth-of-type(2) {
+    width: 24px !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--pm-faint) !important;
+    border-radius: var(--pm-r-sm) !important;
+  }
+  & #dimensions div.btn-group.split button:nth-of-type(2):hover { color: var(--pm-danger) !important; background: rgba(220, 38, 38, 0.08) !important; }
+  /* Active (drilled) dimension */
+  & #dimensions button.dimension-left.btn-primary,
+  & #dimensions .active > button.dimension-left {
+    background: var(--pm-accent-grad) !important;
+    color: #fff !important;
+    box-shadow: var(--pm-accent-glow) !important;
+  }
+  /* Database summary tile at the top */
+  & #dimensions [data-company] button {
+    width: 100% !important;
+    border-radius: 12px !important;
+    padding: 10px 12px !important;
+    text-align: left;
+    align-items: flex-start !important;
+    margin-bottom: 6px;
+  }
+  & #dimensions [data-company] button #spanDatabaseName { font-size: 14px; letter-spacing: -0.01em; }
+  & #dimensions [data-company] button span:not(#spanDatabaseName) { opacity: 0.85; font-size: 12px; }
+  & #dimensions [data-company] button.btn-default {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 0 !important;
+    box-shadow: inset 0 0 0 1px var(--pm-line) !important;
+  }
+
+  /* ---------- Grid card ---------- */
+  & .query-view-container { padding: 4px 10px 10px 8px; }
+  & #query-view {
+    border-radius: var(--pm-r-lg);
+    background: var(--pm-glass-strong);
+    box-shadow: inset 0 0 0 1px var(--pm-glass-edge), var(--pm-shadow-card);
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  & #query-view .js-grid .js-grid-main { border-color: transparent !important; }
+
+  /* Chart mode */
+  & #query-view .highcharts-background { fill: transparent; }
+  & .highcharts-container text { font-family: var(--pm-font) !important; }
+}

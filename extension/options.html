@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phocas Magic Settings</title>
+<style>
+  :root {
+    --ink: #0f172a; --ink-2: #334155; --muted: #64748b; --faint: #94a3b8;
+    --line: rgba(15, 23, 42, 0.08); --accent: #3a56e8;
+    --accent-grad: linear-gradient(135deg, #3a56e8 0%, #5b7cff 100%);
+    --danger: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Arial, sans-serif;
+    color: var(--ink-2);
+    background:
+      radial-gradient(700px 480px at 8% 0%, rgba(129, 140, 248, 0.35), transparent 62%),
+      radial-gradient(640px 420px at 92% 6%, rgba(56, 189, 248, 0.25), transparent 60%),
+      linear-gradient(160deg, #eef1fb 0%, #f1ecfb 100%);
+    display: flex;
+    justify-content: center;
+    padding: 48px 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  main {
+    width: 100%;
+    max-width: 560px;
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 20px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9), 0 18px 48px -16px rgba(30, 41, 99, 0.3);
+    padding: 28px;
+  }
+  h1 { margin: 0 0 4px; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+  p.sub { margin: 0 0 22px; color: var(--muted); }
+  h2 { margin: 22px 0 8px; font-size: 11px; font-weight: 650; letter-spacing: 0.07em; text-transform: uppercase; color: var(--faint); }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 12px; background: rgba(15, 23, 42, 0.035); margin-bottom: 6px; }
+  .row code { font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink); word-break: break-all; }
+  .tag { font-size: 11px; font-weight: 600; color: var(--muted); }
+  .warn { font-size: 11px; font-weight: 600; color: var(--danger); }
+  form { display: flex; gap: 8px; margin-top: 10px; }
+  input[type="text"] {
+    flex: 1; height: 38px; padding: 0 12px; font-size: 14px; color: var(--ink);
+    border: 1px solid rgba(15, 23, 42, 0.12); border-radius: 10px; background: #fff; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input[type="text"]:focus { border-color: rgba(58, 86, 232, 0.55); box-shadow: 0 0 0 3px rgba(58, 86, 232, 0.18); }
+  button {
+    height: 38px; padding: 0 16px; border: 0; border-radius: 10px; font: 600 14px/1 inherit; cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.15s, background-color 0.15s;
+  }
+  button:active { transform: scale(0.97); }
+  .primary { background: var(--accent-grad); color: #fff; box-shadow: 0 4px 12px rgba(58, 86, 232, 0.28); }
+  .ghost { height: 28px; padding: 0 10px; font-size: 12px; background: transparent; color: var(--danger); }
+  .ghost:hover { background: rgba(220, 38, 38, 0.08); }
+  .toggle { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .toggle input { width: 18px; height: 18px; accent-color: var(--accent); }
+  .hint { margin: 8px 2px 0; font-size: 12px; color: var(--muted); }
+  .msg { min-height: 18px; margin-top: 8px; font-size: 12px; color: var(--danger); }
+  .empty { color: var(--faint); font-size: 13px; padding: 4px 2px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Phocas Magic</h1>
+  <p class="sub">A modern look for Phocas. Choose where it runs.</p>
+
+  <h2>Theme</h2>
+  <label class="toggle"><input type="checkbox" id="enabled"> Turn the redesign on</label>
+
+  <h2>Sites</h2>
+  <div class="row"><code>https://*.phocassoftware.com/*</code><span class="tag">Built in</span></div>
+  <div id="list"></div>
+
+  <form id="add">
+    <input type="text" id="domain" placeholder="phocas.yourcompany.com" autocomplete="off" spellcheck="false">
+    <button class="primary" type="submit">Add site</button>
+  </form>
+  <p class="hint">Enter a host name, or use a wildcard like <code>*.example.com</code>. Chrome will ask to allow the extension on that site. Refresh any open Phocas tabs afterwards.</p>
+  <div class="msg" id="msg"></div>
+</main>
+<script src="js/options.js"></script>
+</body>
+</html>

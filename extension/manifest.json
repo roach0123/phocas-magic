@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "Phocas Magic",
+  "version": "2.0.0",
+  "description": "A modern, Apple-inspired redesign for Phocas BI (*.phocassoftware.com). Click the icon to toggle.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Phocas Magic: on (click to turn off)",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.phocassoftware.com/*"
+      ],
+      "css": [
+        "css/00-tokens.css",
+        "css/10-base.css",
+        "css/20-shell.css",
+        "css/30-controls.css",
+        "css/40-grid.css",
+        "css/45-charts.css",
+        "css/50-dashboard.css",
+        "css/60-analytics.css",
+        "css/65-flex.css",
+        "css/70-apps.css",
+        "css/80-overlays.css",
+        "css/90-enhance.css",
+        "css/95-signature.css"
+      ],
+      "js": [
+        "js/pm.js",
+        "js/recolor.js",
+        "js/menus.js",
+        "js/bars.js",
+        "js/total.js",
+        "js/columns.js",
+        "js/charts.js",
+        "js/dimorder.js",
+        "js/muimenus.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "host_permissions": [
+    "https://*.phocassoftware.com/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "options_page": "options.html"
+}

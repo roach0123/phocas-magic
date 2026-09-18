@@ -1,0 +1,118 @@
+/* Dashboards: sections are plain headings on the canvas, every widget is its
+   own card. Card inset comes from padding on the LI (border-box), so the JS
+   computed LI width/height stays the same and the content reflows inside. */
+
+html.pm-on {
+  /* ---------- Header toolbar ---------- */
+  & #dashboard #dashboard-header {
+    padding-top: 4px;
+    position: relative;
+    z-index: 2;
+    transition: box-shadow 0.2s var(--pm-ease), background-color 0.2s var(--pm-ease);
+  }
+  /* Flat at rest; a material + hairline once content scrolls beneath (pm.js) */
+  &[data-pm-scrolled] #dashboard #dashboard-header {
+    background: rgba(243, 245, 251, 0.72) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: 0 1px 0 var(--pm-line), 0 4px 16px rgba(15, 23, 42, 0.06);
+  }
+  & #dashboard-header .toolbar i[class^="ico-"] { color: var(--pm-muted); }
+  & #dashboard-header .toolbar-buttons {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px var(--pm-line), var(--pm-shadow-sm);
+    padding: 0 4px;
+  }
+
+  /* ---------- Sections ---------- */
+  & .dashboard-line {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  & .dashboard-line .line-header h3 {
+    font-family: var(--pm-font-display) !important;
+    font-size: 19px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.022em;
+    color: var(--pm-ink) !important;
+  }
+  & .dashboard-line .line-header .description,
+  & .dashboard-line .line-header p { color: var(--pm-muted); }
+  /* Sections without a title (tagged by pm.js) collapse their header strip */
+  & .dashboard-line.pm-untitled > .line-header { height: 6px !important; min-height: 0 !important; overflow: hidden; padding: 0 !important; }
+
+  /* ---------- Widget cards ---------- */
+  & .dashboard-widget {
+    background: transparent !important;
+    box-sizing: border-box;
+    padding: 6px;
+  }
+  & .dashboard-widget > .widget-controls { position: absolute; z-index: 3; right: 12px; top: 8px; left: auto; width: auto; background: transparent; }
+  & .dashboard-widget > .widget-fullscreen {
+    height: 100%;
+    background: var(--pm-glass-strong);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border-radius: var(--pm-r-lg);
+    box-shadow: inset 0 0 0 1px var(--pm-glass-edge), var(--pm-shadow-card);
+    transition: box-shadow 0.2s var(--pm-ease);
+    box-sizing: border-box;
+    /* cards assemble in a short cascade (index set by pm.js); opacity only */
+    animation: pm-arrive 0.4s var(--pm-ease) both;
+    animation-delay: calc(var(--pm-i, 0) * 35ms);
+  }
+  & .dashboard-widget > .widget-fullscreen:hover {
+    box-shadow: inset 0 0 0 1px var(--pm-glass-edge), var(--pm-shadow-hover);
+  }
+
+  /* Widget title block */
+  & .widget-header { padding-top: 4px; }
+  & .widget-name-line h4 {
+    font-size: 14px !important;
+    font-weight: 650 !important;
+    letter-spacing: -0.01em;
+    color: var(--pm-ink) !important;
+  }
+  & .widget-descr-line h5 { color: var(--pm-muted) !important; font-size: 12px !important; }
+
+  /* Local search in widget header: compact rounded field */
+  & .local-query-control .form-control {
+    border-radius: 999px !important;
+    padding-left: 12px !important;
+    background: var(--pm-fill) !important;
+    border-color: transparent !important;
+  }
+  & .local-query-control .form-control:focus { background: #fff !important; border-color: rgba(58, 86, 232, 0.55) !important; }
+  & .local-query-control .btn-ico i { color: var(--pm-faint); }
+
+  /* Grids inside cards don't need their own frame */
+  & .dashboard-widget .js-grid .js-grid-main {
+    border-color: var(--pm-line) !important;
+    box-shadow: none;
+  }
+
+  /* KPI / text widgets */
+  & .dashboard-widget .widget-kpi-value,
+  & .dashboard-widget .kpi-value {
+    font-family: var(--pm-font-display) !important;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--pm-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Edit mode keeps its handles visible */
+  & #dashboard.edit-mode-enabled .dashboard-widget > .widget-fullscreen {
+    box-shadow: inset 0 0 0 1.5px rgba(58, 86, 232, 0.35), var(--pm-shadow-card);
+  }
+
+  /* Comments / collaboration side panel */
+  & #collabPanel > div {
+    background: rgba(255, 255, 255, 0.86);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: -1px 0 0 var(--pm-line), var(--pm-shadow-pop);
+  }
+}
