@@ -30,12 +30,20 @@ This is an unofficial, personal project. It isn't affiliated with or endorsed by
 
 **Excluded areas:** nothing runs on the administration pages (`/Admin/...`, `/Administration/...`) or on any designer page (any path with a `/designer` segment). The manifest's `exclude_matches` keeps the CSS and scripts from loading there, and each script also checks the path, in case the app navigates there without a page load.
 
-## Install / update
+## Install from the Chrome Web Store
+
+Once it is published (Unlisted), open the store link and click **Add to Chrome**. Updates install automatically.
+
+## Install / update (developer)
 
 The extension is loaded unpacked from `extension/`.
 
 - First install: open `chrome://extensions`, turn on Developer mode, click **Load unpacked**, and pick `extension/`.
 - After editing files: click the reload icon on the Phocas Magic card, then refresh Phocas.
+
+## Publishing
+
+`scripts/build.sh` builds the upload zip in `dist/`. The listing text, privacy answers and publishing steps are in `store/LISTING.md` and `store/CHECKLIST.md`; the privacy policy is `PRIVACY.md`.
 
 ## Turning it off
 

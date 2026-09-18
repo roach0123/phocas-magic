@@ -1,15 +1,18 @@
 {
   "manifest_version": 3,
-  "name": "Phocas Magic",
-  "version": "2.4.0",
-  "description": "A modern, Apple-inspired redesign for Phocas BI (*.phocassoftware.com). Click the icon to toggle.",
+  "name": "Magic Theme for Phocas",
+  "short_name": "Phocas Magic",
+  "version": "3.0.0",
+  "description": "A modern, Apple-inspired look for Phocas BI, with searchable pickers, data bars and reorderable columns. Unofficial.",
+  "minimum_chrome_version": "120",
+  "homepage_url": "https://github.com/roach0123/phocas-magic",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_title": "Phocas Magic: on (click to turn off)",
+    "default_title": "Magic Theme for Phocas",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png"

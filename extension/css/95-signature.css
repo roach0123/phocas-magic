@@ -250,9 +250,9 @@ html.pm-on {
   & .dashboard-widget.pm-kpi .widget-name-line h4 {
     color: var(--pm-muted) !important;
     font-family: var(--pm-font) !important;
-    font-size: 11.5px !important;
+    font-size: 11px !important;
     font-weight: 660 !important;
-    letter-spacing: 0.075em !important;
+    letter-spacing: 0.05em !important;
     text-transform: uppercase;
     line-height: 1.35 !important;
   }
@@ -323,7 +323,7 @@ html.pm-on {
     line-height: 1;
   }
   & .dashboard-widget.pm-kpi .pm-kpi-num {
-    font-size: 48px;
+    font-size: clamp(30px, 15cqw, 48px); /* scales down on narrow tiles */
     font-weight: 760;
     letter-spacing: -0.045em;
     font-variant-numeric: tabular-nums;
@@ -339,12 +339,13 @@ html.pm-on {
   & .dashboard-widget.pm-kpi .pm-kpi-pre { margin-right: 3px; }
   & .dashboard-widget.pm-kpi .pm-kpi-unit { margin-left: 3px; }
   /* ring: the percentage drawn as an arc of 100 (only for % values 0-100) */
+  & .dashboard-widget.pm-kpi > .widget-fullscreen { container-type: inline-size; }
   & .dashboard-widget.pm-kpi .pm-kpi-ring {
     grid-column: 2;
     grid-row: 1 / 3;
     align-self: end;
-    width: 66px;
-    height: 66px;
+    width: clamp(46px, 18cqw, 66px);
+    height: clamp(46px, 18cqw, 66px);
     transform: rotate(-90deg);
     overflow: visible;
     filter: drop-shadow(0 6px 12px color-mix(in srgb, var(--pm-kpi) 28%, transparent));
