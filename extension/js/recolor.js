@@ -2,8 +2,8 @@
 // by rewriting readable stylesheet rules in place. New rules (emotion/MUI inject
 // them at runtime) are picked up by a cheap length check on each sheet.
 (() => {
-  // Excluded area: never touch Phocas administration pages (/Admin/...)
-  if (/^\/admin(istration)?(\/|$)/i.test(location.pathname)) return;
+  // Excluded areas: never touch Phocas administration (/Admin/...) or designer pages
+  if (/^\/admin(istration)?(\/|$)|(^|\/)designer(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagicRecolor) return;
   window.__phocasMagicRecolor = true;
 

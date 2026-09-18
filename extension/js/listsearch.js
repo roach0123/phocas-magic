@@ -4,8 +4,8 @@
 // toggle. Rows are only hidden/shown; checkboxes and their handlers are
 // untouched, so saving works exactly as before.
 (() => {
-  // Excluded area: never touch Phocas administration pages (/Admin/...)
-  if (/^\/admin(istration)?(\/|$)/i.test(location.pathname)) return;
+  // Excluded areas: never touch Phocas administration (/Admin/...) or designer pages
+  if (/^\/admin(istration)?(\/|$)|(^|\/)designer(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagicListSearch) return;
   window.__phocasMagicListSearch = true;
 
