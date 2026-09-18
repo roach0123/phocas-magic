@@ -205,30 +205,22 @@ html.pm-on {
      the layout (row heights include it, so frozen tables stay aligned) but goes
      invisible; pm.js copies its color to the cell as --pm-cf. */
   & .js-grid .conditional-formatting-element { background: transparent !important; }
-  /* A rounded chip behind the value (right aligned, like the number), so
-     the cell stays white and the grid's row lines stay visible */
-  & .js-grid .js-grid-main-body td.pm-cf {
-    position: relative;
-    isolation: isolate;
+  /* Proportional bar (js/bars.js) in the rule's color: the same slim inset
+     bar as data bars, so row lines stay visible and 50% reads as half full */
+  & .js-grid .js-grid-main-body td.pm-cf.pm-bar:not(.selected) {
+    background-image: linear-gradient(to left,
+      color-mix(in srgb, var(--pm-cf) 34%, transparent),
+      color-mix(in srgb, var(--pm-cf) 20%, transparent)) !important;
   }
   & .js-grid .js-grid-main-body tr:not(.selected):not(.highlight) td.pm-cf:not(.selected):not(.highlight) {
-    color: color-mix(in srgb, var(--pm-cf) 75%, #0f172a) !important;
+    color: color-mix(in srgb, var(--pm-cf) 70%, #0f172a) !important;
     font-weight: 650;
   }
-  & .js-grid .js-grid-main-body tr:not(.selected):not(.highlight) td.pm-cf:not(.selected):not(.highlight)::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    right: 3px;
-    top: 50%;
-    width: min(76px, calc(100% - 6px));
-    height: 18px;
-    margin-top: -10px; /* sits on the value, above Phocas' 3px spacer */
-    border-radius: 6px;
-    background: color-mix(in srgb, var(--pm-cf) 16%, #fff);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pm-cf) 28%, #fff);
-  }
-  & .js-grid .js-grid-main-body tr.hover td.pm-cf:not(.selected):not(.highlight)::before {
-    background: color-mix(in srgb, var(--pm-cf) 24%, #fff);
+  /* Zero values get no bar: a short colored tick keeps the rule visible */
+  & .js-grid .js-grid-main-body tr:not(.selected) td.pm-cf:not(.pm-bar):not(.selected) {
+    background-image: linear-gradient(color-mix(in srgb, var(--pm-cf) 45%, transparent), color-mix(in srgb, var(--pm-cf) 45%, transparent)) !important;
+    background-repeat: no-repeat;
+    background-position: right 3px center;
+    background-size: 3px 64%;
   }
 }

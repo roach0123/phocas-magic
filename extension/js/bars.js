@@ -25,51 +25,48 @@
     return td ? td.dataset.index : null;
   };
 
-  const clear = (grid, keepIndex) => {
-    for (const td of grid.querySelectorAll(".js-grid-main-body td.pm-bar")) {
-      if (td.dataset.index === keepIndex) continue;
-      td.classList.remove("pm-bar", "pm-bar-neg");
-      td.style.removeProperty("--pm-bar");
-    }
+  const unbar = (td) => {
+    td.classList.remove("pm-bar", "pm-bar-neg");
+    td.style.removeProperty("--pm-bar");
   };
 
-  const paint = (grid) => {
-    const idx = pickColumn(grid);
-    clear(grid, idx);
-    if (idx == null || idx === "-1") return;
-    const cells = [...grid.querySelectorAll(`.js-grid-main-body tr:not(.summary):not(.summary-row) td.number[data-index="${idx}"]`)]
+  const cellsFor = (grid, idx) =>
+    [...grid.querySelectorAll(`.js-grid-main-body tr:not(.summary):not(.summary-row) td.number[data-index="${idx}"]`)]
       .filter((td) => td.offsetParent !== null); // current page only (other pages are display:none)
-    // Columns with Phocas conditional formatting already carry their own color
-    if (cells.some((td) => td.querySelector(".conditional-formatting-element"))) {
-      for (const td of cells) { td.classList.remove("pm-bar", "pm-bar-neg"); td.style.removeProperty("--pm-bar"); }
-      return;
-    }
-    if (cells.length < 3) {
-      for (const td of cells) { td.classList.remove("pm-bar", "pm-bar-neg"); td.style.removeProperty("--pm-bar"); }
-      return;
-    }
+
+  const paintColumn = (grid, idx) => {
+    const cells = cellsFor(grid, idx);
+    if (cells.length < 3) { cells.forEach(unbar); return; }
     const vals = cells.map((td) => parse(td.textContent));
     const abs = vals.filter((v) => v != null).map(Math.abs);
     const max = Math.max(...abs);
     const min = Math.min(...abs);
     // A column where everything is the same (e.g. lead time 14) says nothing as bars
-    if (!(max > 0) || max === min) {
-      for (const td of cells) { td.classList.remove("pm-bar", "pm-bar-neg"); td.style.removeProperty("--pm-bar"); }
-      return;
-    }
+    if (!(max > 0) || max === min) { cells.forEach(unbar); return; }
     cells.forEach((td, i) => {
       const v = vals[i];
-      if (v == null || v === 0) {
-        td.classList.remove("pm-bar", "pm-bar-neg");
-        td.style.removeProperty("--pm-bar");
-        return;
-      }
-      const pct = Math.max(2, Math.round((Math.abs(v) / max) * 1000) / 10);
-      const val = pct + "%";
+      if (v == null || v === 0) { unbar(td); return; }
+      const val = Math.max(2, Math.round((Math.abs(v) / max) * 1000) / 10) + "%";
       if (td.style.getPropertyValue("--pm-bar") !== val) td.style.setProperty("--pm-bar", val);
       td.classList.add("pm-bar");
       td.classList.toggle("pm-bar-neg", v < 0);
     });
+  };
+
+  // Bars go on the sorted measure, plus every column that has Phocas
+  // conditional formatting (drawn in the rule's color there)
+  const paint = (grid) => {
+    const want = new Set();
+    const sorted = pickColumn(grid);
+    if (sorted != null && sorted !== "-1") want.add(sorted);
+    for (const el of grid.querySelectorAll(".js-grid-main-body .conditional-formatting-element")) {
+      const td = el.closest("td[data-index]");
+      if (td) want.add(td.dataset.index);
+    }
+    for (const td of grid.querySelectorAll(".js-grid-main-body td.pm-bar")) {
+      if (!want.has(td.dataset.index)) unbar(td);
+    }
+    for (const idx of want) paintColumn(grid, idx);
   };
 
   let queued = false;
