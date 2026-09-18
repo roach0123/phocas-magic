@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Phocas Magic",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A modern, Apple-inspired redesign for Phocas BI (*.phocassoftware.com). Click the icon to toggle.",
   "icons": {
     "16": "icons/icon16.png",
@@ -51,7 +51,8 @@
         "js/columns.js",
         "js/charts.js",
         "js/dimorder.js",
-        "js/muimenus.js"
+        "js/muimenus.js",
+        "js/listsearch.js"
       ],
       "run_at": "document_start",
       "all_frames": true

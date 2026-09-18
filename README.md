@@ -17,6 +17,7 @@ A Chrome extension that gives any Phocas site (`*.phocassoftware.com`) a modern 
 - **Flex Modes Analytics (`/analytics/...`):** the newer React app gets the same design (`css/65-flex.css`): a glass control bar, a pill Focus/Reset, a source-list dimension panel, a card grid with quiet headers, and a segmented Grid/Transaction switch.
 - **Dimension order:** "Arrange" above the dimension list, in both Analytics apps (`js/dimorder.js`). Drag rows into your own order, then click Done. It's saved per database in this browser; "Reset order" restores Phocas's groups. It uses CSS `order` only, so React and jQuery never see their DOM moved.
 - **Searchable Properties and other pickers:** classic menus with 5+ items (`js/menus.js`) and Flex popup menus with 4+ options (`js/muimenus.js`) get the pinned search, the selected count and Enter/Esc keys.
+- **People search when sharing:** long checkbox lists (like the Users list when sharing a dashboard or favorite) get a search field, a live selected count and a "Selected only" toggle (`js/listsearch.js`).
 - **Live total:** Analytics shows the headline total and row count to the right of the Focus row (`js/total.js`).
 - **`/` shortcut:** jumps to the page's search field.
 - **Accessibility:** respects reduced motion and reduced transparency, and shows visible keyboard focus.
@@ -65,6 +66,7 @@ extension/
   js/dimorder.js         Arrange: personal dimension order
   js/charts.js           chart redesign on the rendered SVG
   js/total.js            live headline total in Analytics
+  js/listsearch.js       search + "Selected only" for long checkbox lists (sharing)
   js/background.js       toolbar toggle + registers scripts for extra sites
   options.html           settings page: theme on/off, extra sites
   js/options.js          settings logic (permission request per site)

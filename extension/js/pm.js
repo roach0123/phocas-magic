@@ -81,6 +81,12 @@
     for (const inp of document.querySelectorAll(".local-query-control input.form-control:not([placeholder])")) {
       inp.placeholder = "Filter";
     }
+    // Cards whose filter box is actually shown reserve room for it in the title row
+    for (const w of document.querySelectorAll(".dashboard-widget")) {
+      const f = w.querySelector(".local-query-control");
+      const visible = !!(f && f.getClientRects().length && getComputedStyle(f).visibility !== "hidden");
+      if (w.classList.contains("pm-has-filter") !== visible) w.classList.toggle("pm-has-filter", visible);
+    }
     // Column titles: say that a click sorts
     for (const td of document.querySelectorAll(".js-grid-main-title td.sortable:not([data-pm-tip])")) {
       td.dataset.pmTip = "1";

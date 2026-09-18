@@ -94,9 +94,19 @@ html.pm-on {
     height: 28px !important;
   }
   & .dashboard-widget .widget-content-header-container .local-query-control .btn-ico { display: none !important; }
-  & .dashboard-widget .widget-name-line,
-  & .dashboard-widget .widget-descr-line { padding-right: 170px; }
-  & .dashboard-widget .widget-name-line h4,
+  /* Room for the filter only on cards that actually have one */
+  & .dashboard-widget.pm-has-filter .widget-name-line,
+  & .dashboard-widget.pm-has-filter .widget-descr-line { padding-right: 170px; }
+  /* Titles wrap to two lines before truncating */
+  & .dashboard-widget .widget-name-line h4 {
+    white-space: normal !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.25 !important;
+    height: auto !important;
+  }
   & .dashboard-widget .widget-descr-line h5 {
     overflow: hidden;
     text-overflow: ellipsis;
