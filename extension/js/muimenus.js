@@ -4,8 +4,8 @@
 // Esc clears then closes. Options are only hidden/shown with a class, never
 // moved, so React keeps full ownership of the list.
 (() => {
-  // Excluded area: never touch Phocas administration pages
-  if (/^\/administration(\/|$)/i.test(location.pathname)) return;
+  // Excluded area: never touch Phocas administration pages (/Admin/...)
+  if (/^\/admin(istration)?(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagicMuiMenus) return;
   window.__phocasMagicMuiMenus = true;
 

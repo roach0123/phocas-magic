@@ -5,8 +5,8 @@
 // Highcharts redraws (resize, hover state, animation), so the chart's own
 // behaviour (tooltips, clicks, drilldown) is untouched.
 (() => {
-  // Excluded area: never touch Phocas administration pages
-  if (/^\/administration(\/|$)/i.test(location.pathname)) return;
+  // Excluded area: never touch Phocas administration pages (/Admin/...)
+  if (/^\/admin(istration)?(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagicCharts) return;
   window.__phocasMagicCharts = true;
 

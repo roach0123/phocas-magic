@@ -2,8 +2,8 @@
 // and dashboard sections so CSS can target them, and listens for the toolbar
 // toggle. Runs at document_start in every frame.
 (() => {
-  // Excluded area: never touch Phocas administration pages
-  if (/^\/administration(\/|$)/i.test(location.pathname)) return;
+  // Excluded area: never touch Phocas administration pages (/Admin/...)
+  if (/^\/admin(istration)?(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagic) return;
   window.__phocasMagic = true;
 
@@ -41,7 +41,7 @@
     if (location.pathname === lastPath) return;
     lastPath = location.pathname;
     root.dataset.pmPage = pageType();
-    if (/^\/administration(\/|$)/i.test(location.pathname)) root.classList.remove("pm-on");
+    if (/^\/admin(istration)?(\/|$)/i.test(location.pathname)) root.classList.remove("pm-on");
     delete root.dataset.pmScrolled;
   };
 
@@ -89,6 +89,33 @@
       const f = w.querySelector(".local-query-control");
       const visible = !!(f && f.getClientRects().length && getComputedStyle(f).visibility !== "hidden");
       if (w.classList.contains("pm-has-filter") !== visible) w.classList.toggle("pm-has-filter", visible);
+    }
+    // KPI (single value) widgets: Phocas draws the status as an 18px bottom
+    // border in a per-widget color. Tag the card and expose that color.
+    for (const view of document.querySelectorAll(".dashboard-widget .widget-query-view.chart")) {
+      const box = view.querySelector(":scope > div > div > div");
+      const w = view.closest(".dashboard-widget");
+      if (!box || !w || view.querySelector(".highcharts-container")) continue;
+      const cs = getComputedStyle(box);
+      const bw = parseFloat(cs.borderBottomWidth) || 0;
+      // read the color only while the stripe is still Phocas' own (our CSS
+      // makes it transparent afterwards); re-read if Phocas swaps the class
+      const sig = box.className;
+      let color = w.dataset.pmKpiSig === sig ? w.style.getPropertyValue("--pm-kpi") : "";
+      if (!color && bw >= 6 && !/rgba\(0, 0, 0, 0\)|transparent/.test(cs.borderBottomColor)) {
+        color = cs.borderBottomColor;
+        w.dataset.pmKpiSig = sig;
+      }
+      if (!color) {
+        // our class already made it transparent: peek without it
+        box.classList.remove("pm-kpi-box");
+        const c2 = getComputedStyle(box).borderBottomColor;
+        box.classList.add("pm-kpi-box");
+        if (!/rgba\(0, 0, 0, 0\)|transparent/.test(c2) && bw >= 6) { color = c2; w.dataset.pmKpiSig = sig; }
+      }
+      if (!color) continue;
+      if (!w.classList.contains("pm-kpi")) { w.classList.add("pm-kpi"); box.classList.add("pm-kpi-box"); }
+      if (w.style.getPropertyValue("--pm-kpi") !== color) w.style.setProperty("--pm-kpi", color);
     }
     // Conditional formatting: lift the rule color from Phocas' 3px underline
     // element onto its cell (CSS turns it into a soft tint + colored value)

@@ -3,8 +3,8 @@
 // field, a selected count, a two column layout and keyboard control. Nothing
 // is reordered or re-created, so Phocas' own click handlers keep working.
 (() => {
-  // Excluded area: never touch Phocas administration pages
-  if (/^\/administration(\/|$)/i.test(location.pathname)) return;
+  // Excluded area: never touch Phocas administration pages (/Admin/...)
+  if (/^\/admin(istration)?(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagicMenus) return;
   window.__phocasMagicMenus = true;
 

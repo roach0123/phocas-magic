@@ -37,7 +37,8 @@ const syncDomains = async () => {
     matches: granted,
     excludeMatches: granted.flatMap((g) => {
       const origin = g.replace(/\/\*$/, "");
-      return ["/administration*", "/Administration*", "/ADMINISTRATION*"].map((x) => origin + x);
+      return ["/admin", "/Admin", "/ADMIN", "/administration", "/Administration", "/ADMINISTRATION"]
+        .flatMap((x) => [origin + x, origin + x + "/*", origin + x + "?*"]);
     }),
     css,
     js,

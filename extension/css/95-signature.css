@@ -192,3 +192,67 @@ html.pm-on {
   & .js-grid-pagination > a[data-id="aNext"]:hover,
   & .js-grid-pagination > a[data-id="aLast"]:hover { background: var(--pm-accent-soft-2); }
 }
+
+html.pm-on {
+  /* ---------- KPI cards (single value widgets, tagged by pm.js) ---------- */
+  & .dashboard-widget.pm-kpi > .widget-fullscreen {
+    overflow: hidden;
+    background:
+      radial-gradient(95% 130% at 100% 100%, color-mix(in srgb, var(--pm-kpi) 22%, transparent), transparent 64%),
+      linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--pm-kpi) 6%, transparent)),
+      rgba(255, 255, 255, 0.94) !important;
+  }
+  /* status bar: slim, rounded, inset, replaces the 18px stripe */
+  & .dashboard-widget.pm-kpi > .widget-fullscreen::after {
+    content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
+    height: 7px;
+    border-radius: 7px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--pm-kpi) 70%, #fff), var(--pm-kpi));
+    box-shadow: 0 2px 8px -2px color-mix(in srgb, var(--pm-kpi) 55%, transparent);
+    pointer-events: none;
+  }
+  & .dashboard-widget.pm-kpi .pm-kpi-box {
+    border-bottom-color: transparent !important;
+    justify-content: center;
+    padding-bottom: 6px;
+  }
+  /* title: status dot + quieter label */
+  & .dashboard-widget.pm-kpi .widget-name-line h4 {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    color: var(--pm-ink-2) !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+  }
+  & .dashboard-widget.pm-kpi .widget-name-line h4::before {
+    content: "";
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--pm-kpi);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--pm-kpi) 22%, transparent);
+  }
+  /* the value: big, tight, confident */
+  & .dashboard-widget.pm-kpi .pm-kpi-box > div {
+    color: var(--pm-ink) !important;
+    font-family: var(--pm-font-display) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.035em;
+    font-variant-numeric: tabular-nums;
+  }
+  /* value in a deep shade of the status color (readable, but the meaning shows) */
+  & .dashboard-widget.pm-kpi .pm-kpi-box > div > div:not(:empty) {
+    color: color-mix(in srgb, var(--pm-kpi) 78%, #0f172a) !important;
+  }
+  /* units/prefix spans (e.g. %, $) sit lighter */
+  & .dashboard-widget.pm-kpi .pm-kpi-box [class*="css-"][class*="egf0vs"],
+  & .dashboard-widget.pm-kpi .pm-kpi-box > div > div:empty { color: var(--pm-muted) !important; }
+  /* lift on hover, like a tile */
+  & .dashboard-widget.pm-kpi > .widget-fullscreen:hover { transform: translateY(-2px); }
+}

@@ -3,8 +3,8 @@
 // each value, scaled to the largest value on the page. Only a class and a CSS
 // variable are set on the <td>; nothing about cell size changes.
 (() => {
-  // Excluded area: never touch Phocas administration pages
-  if (/^\/administration(\/|$)/i.test(location.pathname)) return;
+  // Excluded area: never touch Phocas administration pages (/Admin/...)
+  if (/^\/admin(istration)?(\/|$)/i.test(location.pathname)) return;
   if (window.__phocasMagicBars) return;
   window.__phocasMagicBars = true;
 
